@@ -4,16 +4,15 @@ Created on Thu May 21 09:23:25 2020
 
 @author: ASUS
 """
+
 '''
-
-
-
+資料結構:
 1.串列:List(資料容器) 由一連串資料組成(等同於陣列)，可存放不同型態的資料，
       以中誇號前後誇住資料[]，可以建構為多維串列(一維,二維....)
   一維串列:串列資料取得:串列名稱[索引值(從0開始)]
          串列名稱[起始:終止]:起始列終止-1的元素 
          
-  len()函式:求串列的長度(元素個數)
+2.len()函式:求串列的長度(元素個數)
   append(value):加入元素，將value加入串列尾短         
   insert(index,value):加入元素在指定的索引處        
   pop():移除串列最後一個元素，可以用變數取出來
@@ -29,45 +28,6 @@ Created on Thu May 21 09:23:25 2020
   in / not in判斷元素是否在或不在串列中
   + :連結串列
   * :複製串列
-  
-    
-2.元祖(數組):tuple 與串列LIST相似，不同如下
-    1.tuple內元素值不可改變
-    2.無法刪除個別元素、無法取代個別元素
-    3.以小()建立元祖
-    4.可以刪除整個數組
-    5.del tuple
-    6.max()
-    7.min()
-    8.tuple()
-    9.list()
-    10.lem()
-
-3.集合:set 以大誇號{}建立，集合不會有重複資料
-    add(x):將x加入集合  
-    remove(x):將x資料移除 
-    聯集:union(集合)        或是用 集合1 | 集合2
-    交集:intersection(集合) 或是用 集合1 & 集合2
-    差集:difference(集合)   或是用 集合1 - 集合2(集合1減掉和集合2相交的部分)
-    ==:比較兩個集合是否相等
-    =!:比較兩個集合是否不相等 
-    
-    
-
-4.字典:dict 以大誇號{:}建立，資料鍵值(key)及值(value)組成 
-    格式 {key:value , key2:value2......}   中間用冒號隔開
-    刪除資料 del 字典[key]
-    keys()列出該字典所有的key值
-    values()列出所有的Values值
-    items()列出項目值
-    tuple(dict1.items()) 不會出現原本的名稱
-    copy()複製
-    update()合併字典，若有相同的key值只取一個key(合併的那個欄位)
-    get(key) 傳回值
-    setdefault(key,value) 若沒有Key建立一組key:value,若已經有KEY則回傳原本的值
-
-
-
 
 '''
 ---------------------------------------------------------
@@ -403,29 +363,6 @@ dict4
 (不可用系統內建函式)　
 
 
-
-import random
-
-a = [random.randint(1,100) for x in range(5)]
-
-print(a)
-
-
-def aList(lis):
-    maxnum = lis[0]
-    minnum = lis[0]
-    for i in lis:
-        if i >= maxnum:
-            maxnum = i
-            
-    for i in lis:
-        if i <= minnum:
-            minnum = i
-    return print("最大值是:%2d 最小值是:%2d" %(maxnum, minnum) )
-            
-            
-            
-aList(a)
 
 
 
