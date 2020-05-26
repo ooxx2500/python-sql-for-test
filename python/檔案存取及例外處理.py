@@ -304,7 +304,7 @@ while data1 !='':
     acc = eval(lst1[2])
     coun = eval(lst[1])
     avg= acc*0.4+coun*0.6
-    print(lst1[0],"平均是",avg)
+    print("%4s平均是%.2f"%(lst1[0],avg))
     data1=readfile.readline()
 
 readfile.close()
@@ -409,7 +409,7 @@ else:
 
 
 ----------------------------------------------
-a = '\n\n\n\n\t\t\t5555\t\t66666666\n\n'            
+a = '\n\n\n\n\t\t\t5555\t\t66666666\n\\\n'            
 b=a.strip()
 print(repr(b))
 
