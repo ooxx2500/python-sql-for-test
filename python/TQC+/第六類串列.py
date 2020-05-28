@@ -237,7 +237,7 @@ for i in range(num_week):
     temp.append([])
     print('Week %d:' % (i+1))
     for j in range(num_day):
-        temp[i].append(eval(input('Day %d:' % (j+1))))
+        temp[i].append(eval(input('Day %d:' % (j+1))))  #困難在這要輸出同一排
 
 comb = []    #將串列合併成一條 extend
 for i in range(num_week):
