@@ -61,6 +61,11 @@ Created on Fri May 22 09:36:53 2020
 
 
 a,b = map(int,input("請輸入:").split())
+
+unicode碼(萬國馬):可以顯示2**16=65536個字元包含ASCII碼
+ASCII碼:10進位數值 英文大小寫 及符號 0~127共128個
+
+
     
 
 """
