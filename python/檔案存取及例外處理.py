@@ -20,6 +20,9 @@ Created on Mon May 25 09:16:12 2020
        r+(讀寫模式):
        w+(讀寫模式):要配合seek()函式使用
        a+(讀寫模式):要配合seek()函式使用
+
+        用UTF-8編碼開啟檔案
+       file = open( filename, 'r', encoding='UTF-8'))
        
    seek():移動指標
    格式:seek(offect,where)
