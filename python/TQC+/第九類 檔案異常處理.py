@@ -142,7 +142,8 @@ outfile.close()
 
 '''
 910
-請撰寫一程式，要求使用者讀入read.dat（以UTF-8編碼格式讀取），第一列為欄位名稱，第二列之後是個人記錄。請輸出檔案內容並顯示男生人數和女生人數（根據"性別"欄位，0為女性、1為男性）。
+請撰寫一程式，要求使用者讀入read.dat（以UTF-8編碼格式讀取），第一列為欄位名稱，第二列之後
+是個人記錄。請輸出檔案內容並顯示男生人數和女生人數（根據"性別"欄位，0為女性、1為男性）。
 
 3. 輸入輸出：
 輸入說明
@@ -201,7 +202,75 @@ row[3]:科系
 '''        
         
         
+'''
+908
+請撰寫一程式，要求使用者輸入檔名read.txt，以及檔案中某單字出現的次數。輸出符合次數的單字，並依單字的第一個字母大小排序。（單字的判斷以空白隔開即可）
 
+3. 輸入輸出：
+輸入說明
+讀取read.txt的內容，以及檔案中某單字出現的次數
+
+輸出說明
+輸出符合次數的單字，並依單字的第一個字母大小排序
+
+輸入輸出範例
+範例輸入
+read.txt
+3
+範例輸出
+a
+is
+programming
+'''
+#908複雜解法
+f_name = input()
+n = int(input())
+word_dict=dict() #建立空字典
+
+with open(f_name,'r',encoding = 'UTF-8') as file:
+    for line in file:
+        word = line.strip('\n').split(' ')
+        
+        for x in word:
+            if x in word_dict:
+                word_dict[x]+=1 #如果字典中已經有單字了再加一次
+            else:
+                word_dict[x]=1      #單字第一次出現變成新KEY，VALUE從一開始
+                
+word_list = word_dict.items() #.items()傳回字典中所有的k:v  dict_items([(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'), (5, 'e')])
+wordQTY = [x for (x,y) in word_list if y ==n]#利用迴圈的數值作為終止值取出word_list
+sortedword=sorted(wordQTY)                   #中的字詞wordQTY
+
+for x in sortedword:
+    print(x)
+
+'''
+908簡單解法
+'''
+
+fn = input() #read.txt
+n =int(input()) #輸入次數
+with open(fn,'r',encoding = 'UTF-8') as fp:#用UTF-8編碼開啟
+    data = sorted(fp.read().split()) #將讀取的檔案內容以空白分割再排序
+for i in sorted(set(data)):
+    if data.count(i)==n: #求單字i在該字典出現的次數
+        print(i)
+
+-----------------------------
+b={1:'a',2:'b',3:'c',4:'d',5:'e',6:'b'}
+b.items()
+print(b.items())
+wordQTY = [x for (x,y) in b.items() if y == 'b']
+print(wordQTY)
+
+
+
+-----------------------------------
+
+n =int(input()) #輸入次數
+with open(r'C:\Users\ASUS\Documents\Python-SQL\python\TQC+\9_txt\read.txt','r',encoding = 'UTF-8') as fp:#用UTF-8編碼開啟
+    data = sorted(fp.read().split()) #將讀取的檔案內容以空白分割再排序
+    print(data)
 
 
 

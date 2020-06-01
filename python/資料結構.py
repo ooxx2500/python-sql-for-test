@@ -29,7 +29,7 @@ Created on Thu May 21 09:23:25 2020
   + :連結串列
   * :複製串列
 
-3.
+3.排序
 a=[1,9,5,7]
 sorted(a,reverse = True)  此方法不會改變原本串列
 print(a)
@@ -38,13 +38,32 @@ a=[1,9,5,7]
 a=[1,9,5,7]
 a.sort()      此方法會改變原本的串列
 print(a)
-a=[1,5,7,9] 
-
-
-
+a=[1,5,7,9]
+ 
+排序二維串列
+sorted(members,key=lambda s1:s2[0])
+lambda(指令)
+格式 lambda 參數1,2,....:運算敘述A,B.......
 
 
 '''
+#練習排序 要排分數大小
+members = [['simon','a',95],['amy','b',80],['ruby','c',78],['kelly','b',82]]
+m_sorted = sorted(members)
+print(members) #不改變原本的串列資料
+print(m_sorted) #依照人名排序第一個參數
+m_sorted2 = sorted(members,key=lambda s:s[2]) #排序二為串列的分數
+print(m_sorted2)       #參數s1設定其值為s1的索引值2 就是分數
+
+
+s_list = [20,30,10,40,90]
+sorts = sorted(range(len(s)),key = lambda  a:s_list[a]) #設a = s_list[a]來排
+print(sorts)             #a會去抓範圍0~4 s_list[a]用該串列的索引排序
+
+
+
+
+
 ---------------------------------------------------------
 #一維串列，串列資料取得:串列名稱[索引值(從0開始)]
 
