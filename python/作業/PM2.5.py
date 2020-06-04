@@ -30,8 +30,8 @@ tree = et.ElementTree(file=r'C:\Users\ASUS\Documents\Python-SQL\python\作業\2.
 #讀取XML檔，儲存到 tree 變數
 root = tree.getroot() #取得根節點(即XML標籤)
 for aa in root: #(menu標籤下的子標籤)
-    for i in aa: #子標籤下的子標籤
-        print('測站:',aa[0].text,'縣市:' ,aa[1].text,'PM2.5 =', aa[2].text)
+    #子標籤下的子標籤
+    print('測站:',aa[0].text,'縣市:' ,aa[1].text,'PM2.5 =', aa[2].text)
 
 
 
