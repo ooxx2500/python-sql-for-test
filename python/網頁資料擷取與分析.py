@@ -44,7 +44,7 @@ open data開放資料 建議格式:JSON XML、試算表MS Excel xlsx、CSV(資�
 
     pypdf2:安裝pip install pypdf2
        執行PDF讀取 寫入 合併 分割
-
+資料處理:資料檔格式以csv xml json為主，讀取寫入為基本操作
 
 """
 
@@ -319,42 +319,157 @@ print(len(root[0]))   # 早餐選項的數目
 '''
 
 import xml.etree.ElementTree as et
-
+#以parse讀取解析XML檔案
 tree = et.parse(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\country_data.xml')
-root = tree.getroot()
-print('country_data.xml的根結點:'+root.tag)
-print('根結點標籤裡的屬性和屬性值:'+str(root.attrib))
+root = tree.getroot() #取得根節點最外層DATA標籤
+print('country_data.xml的根結點:'+root.tag) #輸出根節點(標籤名)
+print('根結點標籤裡的屬性和屬性值:'+str(root.attrib)) #輸出根節點的屬性與屬性值
 
-for child in root:
-    print(child.tag, child.attrib)
+for child in root: #以迴圈取得子節點標籤、屬性、屬性值,(root=data)下的標籤
+    print(child.tag, child.attrib)#子結點就是country標籤
 print('排名'+root[0][0].text ,'國內生產總值:'+root[0][2].text) 
-
-for neighbor in root.iter('neighbor'):
+#以 .text 輸出 country 標籤下的子標籤內容
+#第一層 data
+#第二層 country   root[0] 愛爾蘭   root[1] 新加坡 
+#第三層 rank      root[0][0] 
+#      year      root[0][1] 
+#      gdppc     root[0][2] 
+#      neighbor  root[0][3]
+for neighbor in root.iter('neighbor'): 
+#Element.iter(目標)  尋找所有元素內符合目標的項目，所有的子節點都會搜尋    
     print(neighbor.attrib)
-for country in root.findall('country'):
-    rank = country.find('rank').text
-    name = country.get('name')
+    
+    for country in root.findall('country'):#目標.findall('搜尋')
+#以 findall() 方法取得根節點下的子節點標籤中符合的標籤取出顯示
+    rank = country.find('rank').text#利用FIND方法取得COUNTRY下的子節點rank,然後用text取出文字
+    name = country.get('name')#利用get方法取得COUNTRY節點下的屬性
     print(name,rank)
     
+------------------------------------------------------------------  
+#修改XML  
+import xml.etree.ElementTree as et
+#以parse讀取解析XML檔案
+tree = et.parse(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\country_data.xml')
+root = tree.getroot() #取得根節點最外層DATA標籤
+
+for rank in root.iter('rank'):
+    new_rank = int(rank.text)+1  #轉成數字做運算
+    rank.text = str(new_rank)    #轉回文字檔才能修改原本的項目
+    rank.set('updated' ,'yes')   #以set()方法設定 rank 標籤的屬性、屬性值 <rank updated="yes">5</rank>
+                                 #Element.set(屬性 , 屬性值)：設定元素的屬性、屬性值
+tree.write(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\country_data_output.xml',\
+           encoding = 'utf-8')
+-----------------------------------------------------
+#刪除XML
+
+import xml.etree.ElementTree as et
+
+tree = et.parse(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\country_data.xml')
+root = tree.getroot() 
+
+for country in root.findall('country'): #依續搜尋三個國家標籤
+    rank = int(country.find('rank').text) #在國家下搜尋rank標籤    
+    if rank > 50:
+        root.remove(country)#若 rank 標籤顯示文字大於 50
+                            #則使用 remove() 方法移除根節點下的 country 標籤
+tree.write(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\country_data_output01.xml',encoding = 'utf-8')
+
+
+'''
+網頁資料擷取及轉換
+
+Python擷取網頁的流程:
+    1.存取網站取得內容
+    2.解析取得的內容
+    3.處理資料(分析視覺化)
+
+Python取得網頁資料
+  靜態網頁資料:
+     1.站中不含.js檔(java.scrip)
+     2.伺服器回傳的是一整個網頁
+     3.處理方法:需要解析html檔案
+     4.HTML網頁架構:標籤tag 屬性attributr 內容content ，樹狀結構構成
+     5.HTML標籤結構:<標簽名 屬性(可以多個)>內容</標籤>
+     6.常用HTML標籤:(網頁爬蟲)
+        <header>表頭    <h1>標題文字第一級
+        <title>標題     <a href>超連結
+        <body>網頁主體   <form>表單
+        <div>區塊       <tr> , <td> 表格列/表格欄
+        
+  動態網頁資料:
+
+
+'''
+#安裝爬蟲套件
+#pip install requests
+#pip install bs4
+
+
+
+import csv    #載入 csv 模組，處理csv檔案格式
+import requests	#載入 requests 模組，存取網站取得內容
+
+#載入 BeautifulSoup 模組，解析網頁
+#BeautifulSoup讀取 HTML 原始碼，自動進行解析並產生一個 BeautifulSoup 物件，
+#此物件中包含了整個 HTML 文件的結構
+from bs4 import BeautifulSoup #BeautifulSoup自動解析網路
+from time import localtime, strftime, strptime, mktime    #處理時間系列
+from datetime import datetime    #處理日期時間
+from os.path import exists    #處理檔案儲存路徑、查看特定的路徑是否存在，不分檔案或目錄
+
+#requests.get(網址)取得網站內容
+html = requests.get("https://rate.bot.com.tw/xrt?Lang=zh-TW")
+
+#將取得的網站內容分析並建立物件bsObj  html.content取出網頁內容
+bsObj = BeautifulSoup(html.content, "lxml")#lxml分析網頁的格式
+#bsobj是經過分析後的網站樹狀結構
+#靜態網頁中的資訊結構為table→tbody→tr，很多tr，故使用findall找出所有tr
+
+for single_tr in bsObj.find("table", {"title":"牌告匯率"}).find("tbody").findAll("tr"):
+    #findall找出所有的td儲存到cell
+    cell = single_tr.findAll("td")
+    print(cell)
+
+    #在cell[0]下找到class屬性是visible-phone的欄位
+    #以contents回傳欄位內容給currency_name(匯率名稱)
+    currency_name = cell[0].find("div", {"class":"visible-phone"}).contents[0]
+    #contents代表欄位內容並回傳
+    #刪除表格中不必要的資料如\r , \n , 空白鍵
+    currency_name = currency_name.replace("\r","")
+    currency_name = currency_name.replace("\n","")
+    currency_name = currency_name.replace(" ","")
+
+    #以contents回傳欄位內容給currency_rate(匯率)
+    currency_rate = cell[2].contents[0]
+    print(currency_name, currency_rate)
+
+    #建立csv檔案
+    file_name = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\bkt_rate' + currency_name + ".csv"
+
+    #取得目前時間
+    now_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
+    #Y西元年 m月份 d日期 H小時 M分鐘 S秒
+    #寫入csv檔，如果檔案不存在，則抓取網頁上的時間及匯率寫入，若檔案存在，即使用原資料
+    #如果檔案不存在，加入一行資料，以串列中的串列處理每天的匯率資料。
+    #每一個串列代表擷取得每一筆匯率資料。
+    if not exists(file_name):
+        data = [['時間', '匯率'], [now_time, currency_rate]]
+    else:
+        data = [[now_time, currency_rate]]
+    f = open(file_name, "a")    #開啟csv檔
+    w = csv.writer(f)    #寫入csv檔
+    w.writerows(data)    #寫入data物件
+    f.close()    #關閉csv檔案    
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
