@@ -32,9 +32,18 @@ root = tree.getroot() #取得根節點(即XML標籤)
 for aa in root: #(menu標籤下的子標籤)
     #子標籤下的子標籤
     print('測站:',aa[0].text,'縣市:' ,aa[1].text,'PM2.5 =', aa[2].text)
+-------------------------------------
 
-
-
+import xml.etree.ElementTree as et #載入xml.etree.ElementTree套件 解析為數狀結構
+tree = et.ElementTree(file=r'C:\Users\ASUS\Documents\Python-SQL\python\作業\2.5.xml')
+#讀取XML檔，儲存到 tree 變數
+root = tree.getroot() #取得根節點(即XML標籤)
+for i in root.findall('Data'): #(menu標籤下的子標籤)
+    #子標籤下的子標籤
+    site = i.find('Site').text
+    area = i.find('county').text
+    pm2 =i.find('PM25').text
+    print('測站:',site,'縣市:' ,area,'PM2.5 =', pm2)
 
 
 
