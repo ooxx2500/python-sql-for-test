@@ -734,7 +734,13 @@ assert 'Python' in driver.title   #如果Python不再該網頁的標題則直接
 elem = driver.find_element_by_name('q')#該網頁的輸入欄位
 elem.clear() #先清除預設內容
 elem.send_keys('pycon')
+<<<<<<< HEAD
+elem.send_keys(Keys.RETURN) #鍵盤按下RETURN 就是ENTER
+
+
+=======
 elem.send_keys(Keys.RETURN) #搜尋結果傳回來
+>>>>>>> origin/master
 assert 'No results found.' not in driver.page_source #如果有No results found.程式則停止
 print(driver.page_source)   
 driver.close()      
@@ -743,9 +749,15 @@ driver.close()
 ------------------------------------    
 a=1
 b=10
+<<<<<<< HEAD
 
 assert a>b
 
+=======
+
+assert a>b
+
+>>>>>>> origin/master
 ------------------------------------
 
 from selenium import webdriver
