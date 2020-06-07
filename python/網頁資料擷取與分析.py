@@ -555,7 +555,7 @@ if html.status_code == requests.codes.ok: #status_code取得回應狀態碼
 f = open(r'C:\Users\ASUS\Desktop\001.text','w',encoding = 'utf8')
 f.write(html.text)
 -------------------------
-#requests取得網址
+#測試requests.get
 import requests
 
 payload = {'key1':'value1','key2':'value2'} #定義個字典
@@ -565,9 +565,11 @@ html = requests.get('http://httpbin.org/get' , params= payload) #params= payload
     #請求網址:http:httpbin.org/get
            #http://httpbin.org/post
     #若帶有參數請求則以?&合併於網址後
+print(html.text)
 print(html.url) #印出網址，如果是密碼也會顯示出來
 
 -----------------------
+#測試requests.post
 import requests
 
 payload = {'key1':'value1','key2':'value2'} #定義個字典
@@ -591,7 +593,7 @@ client 拜訪=> server 產生憑證(識別用 存在用戶cookie 存在伺服器
     
 
 '''
-
+#PTT找八卦版熱門文章
 import requests
 from bs4 import BeautifulSoup
 #查詢網頁傳頌表單的方法為post,按鈕的value值為'yes',用python寫出進入網址按下的按鈕值
@@ -665,7 +667,8 @@ print(sp.select('div img')[0])
 
 
 
-'''      
+''' 
+#自動登入FB     
 #pip install selenium      
 from selenium import webdriver
 
@@ -680,7 +683,7 @@ driver.get(url)#取得網址
 
 driver.find_element_by_id('email').send_keys(email)  #元素id
 driver.find_element_by_id('pass').send_keys(password)#元素名稱  
-driver.find_element_by_id('loginbutton').click()
+driver.find_element_by_id('loginbutton').click() #點一下登入
 
 #driver.find_element_by_id 元素ID
 #driver.find_element_by_name 元素名稱
@@ -689,12 +692,13 @@ driver.find_element_by_id('loginbutton').click()
 #find_element_by_link_text('衛星')
 
 -------------------------
-      
+#打開天氣點衛星      
 from selenium import webdriver
 import time
 driver_path = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe'
 web = webdriver.Chrome(driver_path)
 web.get('http://www.cwb.gov.tw/V7/')
+
 web.set_window_position(0,0) #原點0,0再畫面左上角
 web.set_window_size(700,700)  #設定網頁式窗大小    
 time.sleep(5) #停5秒
@@ -706,7 +710,7 @@ web.close() #關閉瀏覽器
 
 
 ----------------------------------
-
+#打開YAHOO並在搜尋欄輸入字，再按搜尋
 from selenium import webdriver
 url="https://tw.yahoo.com/"
 driver_path=r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
@@ -715,7 +719,7 @@ browser.get(url)#開啟瀏覽器
 
 element=browser.find_element_by_id("UHSearchBox")
 element.send_keys("Hello word")
-sumbit=browser.find_element_by_id("UHSearchWeb").clock()
+sumbit=browser.find_element_by_id("UHSearchWeb").click()
 
 -------------------------------------------
 
@@ -724,34 +728,45 @@ from selenium.webdriver.common.keys import Keys
 driver_path = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe'
 driver = webdriver.Chrome(driver_path)
 driver.get('http://www.python.org')
-print(driver.title)
-assert 'Python' in driver.title
-elem = driver.find_element_by_name('q')
-elem.clear()
+print(driver.title)#印出該網頁的標題
+
+assert 'Python' in driver.title   #如果Python不再該網頁的標題則直接出現錯誤 AssertionError
+elem = driver.find_element_by_name('q')#該網頁的輸入欄位
+elem.clear() #先清除預設內容
 elem.send_keys('pycon')
 elem.send_keys(Keys.RETURN) #搜尋結果傳回來
-assert 'No results found.' not in driver.page_source
+assert 'No results found.' not in driver.page_source #如果有No results found.程式則停止
 print(driver.page_source)   
 driver.close()      
-      
+#assert（断言）用于判断一个表达式，在表达式条件为 false 的时候触发异常。
+#強迫程式終止，並返回 AssertionError     
 ------------------------------------    
+a=1
+b=10
 
+assert a>b
+
+------------------------------------
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 driver_path = r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
-driver = webdriver.Chrome(driver_path)
+driver = webdriver.Chrome(driver_path)#找出搜尋欄填入關鍵字
 driver.get('http://www.imdb.com/')
+
 search_elem=driver.find_element_by_css_selector("#navbar-quercy")
-search_elem.send_keys("The Shape of water")
+search_elem.send_keys("The Shape of water")#找出搜尋欄填入關鍵字
 time.sleep(3)
+
 search_button_elem=driver.find_element_by_css_selector("#navbar-submit-button .navbarSprite")
-search_button_elem.click()
+search_button_elem.click()#上面找出搜尋並點一下
 time.sleep(3)
+
 first_result_elem=driver.find_element_by_css_selector("#findSubHeade+ .findSection .odd:nth-child(1) .result_text a")
 first_result_elem.click()
 time.sleep(3)
+
 rating_elem=driver.find_element_by_css_selector("strong span")
 rating=float(rating_elem.text)
 cast_elem=driver.find_element_by_css_selector(".itemprop .itemprop")

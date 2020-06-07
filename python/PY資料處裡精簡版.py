@@ -368,10 +368,41 @@ Python取得網頁資料
         <title>標題     <a href>超連結
         <body>網頁主體   <form>表單
         <div>區塊       <tr> , <td> 表格列/表格欄
-        
+        <th>標格頭
   動態網頁資料:
 
 
+'''
+'''
+讀取網站檔案:requests
+    發送GET請求:Browser輸入網址，再由伺服器回應到使用者端，不安全看得到密碼
+    Requests請求:可不經過瀏覽器發送GET直接存取網頁
+    
+    import requests #範例
+    變數 = requests.get(網址)
+
+
+Beautifulsoup的解析器
+    html.parser 官方的
+    lxml
+    xml
+    html5lib
+    
+  方法:
+    find():傳回第一個符合的標籤內容，傳回值為字串
+    find_all():傳回所有符合的標籤內容，傳回值是一個串列
+    find(標簽名稱,{'屬性名稱':'屬性值'})     屬性為字典型別
+    find_all(標簽名稱,{'屬性名稱':'屬性值'}) 沒屬性用標籤名稱就可以   
+    select():以CSS選擇器的方式讀取指定的資料，傳回值為串列
+        1.讀取CSS的ID:必須於id前加上# 
+          例如<div id='first'>內容</div>
+          data = BeautifulSoup物件.select('#first')
+        2.讀取CSS物件類別:必須在類別的前面加上.
+          例如<p class='second'>內容</p>
+          data = BeautifulSoup物件.select('.second')
+        3.多層標籤:逐層依序寫出
+          例如<html><head><title>內容</title></head></html>
+          data = BeautifulSoup物件.select('html head title')
 '''
 #安裝爬蟲套件
 #pip install requests
@@ -394,9 +425,8 @@ from os.path import exists    #處理檔案儲存路徑、查看特定的路徑�
 html = requests.get("https://rate.bot.com.tw/xrt?Lang=zh-TW")
 
 #將取得的網站內容分析並建立物件bsObj  html.content取出網頁內容
-bsObj = BeautifulSoup(html.content, "lxml")#lxml分析網頁的格式
-#bsobj是經過分析後的網站樹狀結構
-#靜態網頁中的資訊結構為table→tbody→tr，很多tr，故使用findall找出所有tr
+bsObj = BeautifulSoup(html.content, "lxml")#bsobj是經過分析後的網站樹狀結構
+
 
 for single_tr in bsObj.find("table", {"title":"牌告匯率"}).find("tbody").findAll("tr"):
     #find("table", {"title":"牌告匯率"}) 找table標籤下，屬性(字典)title=牌告利率的
@@ -437,6 +467,277 @@ for single_tr in bsObj.find("table", {"title":"牌告匯率"}).find("tbody").fin
     w.writerows(data)    #寫入data物件
     f.close()    #關閉csv檔案    
     
+'''
+urllib :使用urllib.request的urlopen的方法取得遠端網頁，再使用read()方法讀取內容
+
+requests :requests.get("網址") 也可以取得網頁內容
+
+'''    
+    
+#抓取統一發票號嗎        
+#設定Python程式中新舊版本對unicode字串與輸出入的相容性
+from __future__ import unicode_literals, print_function
+import urllib    #存取網頁
+from bs4 import BeautifulSoup	#解析網頁
+import urllib.request    #存取網頁
+
+# 財政部官網
+request_url = 'http://invoice.etax.nat.gov.tw/' 
+
+# 以urllib.request.urlopen開啟網頁物件並以read()讀取網頁內容
+htmlContent = urllib.request.urlopen(request_url).read()
+
+#將取得的網站內容分析並建立物件soup，以html.parser方法解析(解析HTML、XHTML)
+soup = BeautifulSoup(htmlContent, "html.parser") #soup被解析為一個樹狀圖
+
+#搜尋所有網頁中標籤為span，且class屬性為t18Red者設定給results，t18Red是中獎號碼
+results = soup.find_all("span", class_="t18Red")
+
+subTitle = ['特別獎', '特獎', '頭獎', '增開六獎']     # 設定獎項串列
+
+#搜尋所有網頁中標籤為h2，且id屬性為tabTitle者設定給months
+months = soup.find_all('h2', {'id': 'tabTitle'}) 
+# 最新一期，使用months物件的find_next_sibling方法找尋標籤為'h2'下的內容
+month_newest = months[0].find_next_sibling('h2').text #印出月份
+# 上一期months[1] 本期 momths[0]
+month_previous = months[1].find_next_sibling('h2').text
+
+print("最新一期統一發票開獎號碼 ({0})：".format(month_newest))
+
+for index, item in enumerate(results[:4]):    #enumerate：列舉資料中的每一個項目
+    #分解出 索引和標籤(中獎號嗎)網頁前4組是號碼
+	print('>> {0} : {1}'.format(subTitle[index], item.text))#item會是個標籤.text出現文字
+print ("上期統一發票開獎號碼 ({0})：".format(month_previous))
+for index2, item2 in enumerate(results[4:8]):
+	print ('>> {0} : {1}'.format(subTitle[index2], item2.text))
+
+
+-------------
+#練習enumerate
+a1=[1,2,3,4,5,6]
+for index , value in enumerate(a1):
+    print(index , value)
+#可以取出索引+內容
+
+------------
+#requests取得html原始碼
+import requests
+url = 'https://tw.yahoo.com/'
+html = requests.get(url)
+html.encoding = 'utf-8'
+if html.status_code == requests.codes.ok: #status_code取得回應狀態碼
+    print(html.text)    #requests.codes.ok 狀態碼:代表伺服器回應OK
+    
+f = open(r'C:\Users\ASUS\Desktop\001.text','w',encoding = 'utf8')
+f.write(html.text)
+-------------------------
+#requests取得網址
+import requests
+
+payload = {'key1':'value1','key2':'value2'} #定義個字典
+
+html = requests.get('http://httpbin.org/get' , params= payload) #params= payload請求附帶參數
+#httpbin.org:測試網站Request(請求)及Response(回應)的服務
+    #請求網址:http:httpbin.org/get
+           #http://httpbin.org/post
+    #若帶有參數請求則以?&合併於網址後
+print(html.url) #印出網址，如果是密碼也會顯示出來
+
+-----------------------
+import requests
+
+payload = {'key1':'value1','key2':'value2'} #定義個字典
+
+html = requests.post('http://httpbin.org/post' , data= payload) #data= payload請求附帶參數
+#httpbin.org:測試網站Request(請求)及Response(回應)的服務
+    #請求網址:http:httpbin.org/get
+           #http://httpbin.org/post
+    #若帶有參數請求則以?&合併於網址後
+print(html.text)
+print(html.url)
+
+'''
+session / cookie
+
+client 拜訪=> server 產生憑證(識別用 存在用戶cookie 存在伺服器session) => client
+
+建立session: requests.session()
+    身分認證通常搭配session使用，網頁結取(在身分認證畫面理)
+    建立seesion以post方式帶入參數登入，再使用cookies帶入參數進入畫面
+    
+
+'''
+
+import requests
+from bs4 import BeautifulSoup
+#查詢網頁傳頌表單的方法為post,按鈕的value值為'yes',用python寫出進入網址按下的按鈕值
+# <form action="/ask/over18" method="post">
+#<button class="btn-big" type="submit" name="yes" value="yes">我同意，我已年滿十八歲<br><small>進入</small></button>
+payload = {
+    'from': 'https://www.ptt.cc/bbs/Gossiping/index.html',
+    'yes': 'yes' #第2個yes隨便打一個值都可以，代表按下yes按鈕
+    }
+#讓程式去模擬瀏覽器操作，騙過伺服器防護
+headers = {
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)'\
+    'AppleWebkit/537.36 (KHTML, like Gecko) chrome/56.0.2924.87 Safari/537.36'
+    }
+
+rs = requests.Session() #建立rs物件
+rs.post('https://www.ptt.cc/ask/over18',data = payload , headers = headers)
+#rs認證畫面用post代參數項伺服器請求，經過這行就會產生伺服器所屬的cookie
+res = rs.get('https://www.ptt.cc/bbs/Gossiping/index.html',headers = headers)
+#用get取得網頁內容
+
+soup = BeautifulSoup(res.text, 'html.parser')
+items = soup.select('.r-ent') 
+for item in items:
+    print(item.select('.date')[0].text, item.select('.author')[0].text,\
+          item.select('.title')[0].text)
+
+-----------------------------
+html = '''
+<html><head><title>網頁標題</title></head></html>
+<p class = "header"><h2>文件標題</h2></p>
+<div class="content">
+    <div class="item1">
+        <a href="http://example.com/one" class="red" id="link1">First</a>
+        <a href="http://example.com/two" class="red" id="link2">Second</a>
+    </div>
+    <a href ="http://example.com/three" class="blue" id="link3">
+       <img src = "http://example.com/three.jpg">Third
+    </a>
+</div>
+'''
+
+from bs4 import BeautifulSoup
+sp = BeautifulSoup(html , 'html.parser') #sp就是網頁內容
+print(sp.title)#sp.title 可以取得title標籤的內容
+print(sp.find('h2'))#找出h2的標籤
+print(sp.find_all('a'))#找出所有a標籤的並放入一個串列
+print(sp.find_all('a',{'class':'red'})) #找所有a標籤且屬性'class'='red'的
+data1 = sp.find('a',{'href':"http://example.com/one"})#找出第一個a標籤屬性href=網址的標籤
+print(data1.text)#只印出標籤的內容
+data2 = sp.select('#link1') #找到屬性id = link1的內容 (#)代表id,傳回是一個串列(標籤)
+print(data2)
+print(data2[0].text)      
+print(data2[0].get('href'))   #找出屬性值可以用get或以下方法 
+print(data2[0]['href'])
+print(data2[0]['class'])         
+print(sp.find_all(['title','h2']))#用此方法找出所有標籤為title和h2的     
+print(sp.select('div img')[0]['src'])#找出在div標籤中的img標籤中的第一筆資料的src屬性     
+print(sp.select('div img')[0])      
+      
+      
+'''
+瀏覽器自動化操作:Selenium，藉由指令自動操作頁面
+
+1.安裝selenium
+2.去網路下載解壓縮 chrome webDriver
+
+
+
+
+
+
+
+'''      
+#pip install selenium      
+from selenium import webdriver
+
+driver_path = r'C:\Users\ASUS\Desktop\chromedriver.exe'
+url = 'https://www.facebook.com'
+email = ' '
+password=' '
+driver = webdriver.Chrome(driver_path)
+
+driver.maximize_window() #視窗
+driver.get(url)#取得網址
+
+driver.find_element_by_id('email').send_keys(email)  #元素id
+driver.find_element_by_id('pass').send_keys(password)#元素名稱  
+driver.find_element_by_id('loginbutton').click()
+
+#driver.find_element_by_id 元素ID
+#driver.find_element_by_name 元素名稱
+#driver.find_element_by_tag_name 元素標簽名
+#driver.find_element_by_css_selector 元素CSS選擇器
+#find_element_by_link_text('衛星')
+
+-------------------------
+      
+from selenium import webdriver
+import time
+driver_path = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe'
+web = webdriver.Chrome(driver_path)
+web.get('http://www.cwb.gov.tw/V7/')
+web.set_window_position(0,0) #原點0,0再畫面左上角
+web.set_window_size(700,700)  #設定網頁式窗大小    
+time.sleep(5) #停5秒
+web.find_element_by_link_text('衛星').click() #找到連結叫衛星的點一下
+time.sleep(5)
+web.close() #關閉瀏覽器  
+
+
+
+
+----------------------------------
+
+from selenium import webdriver
+url="https://tw.yahoo.com/"
+driver_path=r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
+browser=webdriver.Chrome(driver_path)
+browser.get(url)#開啟瀏覽器
+
+element=browser.find_element_by_id("UHSearchBox")
+element.send_keys("Hello word")
+sumbit=browser.find_element_by_id("UHSearchWeb").clock()
+
+-------------------------------------------
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+driver_path = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe'
+driver = webdriver.Chrome(driver_path)
+driver.get('http://www.python.org')
+print(driver.title)
+assert 'Python' in driver.title
+elem = driver.find_element_by_name('q')
+elem.clear()
+elem.send_keys('pycon')
+elem.send_keys(Keys.RETURN) #搜尋結果傳回來
+assert 'No results found.' not in driver.page_source
+print(driver.page_source)   
+driver.close()      
+      
+------------------------------------    
+
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+driver_path = r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
+driver = webdriver.Chrome(driver_path)
+driver.get('http://www.imdb.com/')
+search_elem=driver.find_element_by_css_selector("#navbar-quercy")
+search_elem.send_keys("The Shape of water")
+time.sleep(3)
+search_button_elem=driver.find_element_by_css_selector("#navbar-submit-button .navbarSprite")
+search_button_elem.click()
+time.sleep(3)
+first_result_elem=driver.find_element_by_css_selector("#findSubHeade+ .findSection .odd:nth-child(1) .result_text a")
+first_result_elem.click()
+time.sleep(3)
+rating_elem=driver.find_element_by_css_selector("strong span")
+rating=float(rating_elem.text)
+cast_elem=driver.find_element_by_css_selector(".itemprop .itemprop")
+cast_list=[cast.text for cast in cast_elem]
+driver.close()
+print(rating,cast_list)    
+    
+    
+    
+
     
     
     
