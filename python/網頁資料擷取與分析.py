@@ -431,6 +431,10 @@ Beautifulsoup的解析器
         3.多層標籤:逐層依序寫出
           例如<html><head><title>內容</title></head></html>
           data = BeautifulSoup物件.select('html head title')
+          
+html.encoding='utf-8-sig' 用編碼UTF8開啟
+
+          
 '''
 #安裝爬蟲套件
 #pip install requests
@@ -786,6 +790,65 @@ cast_list=[cast.text for cast in cast_elem]
 driver.close()
 print(rating,cast_list)    
     
+-------------------------------
+'''
+pandas模組(資料存取)
+    功能:
+        自動讀取網頁表格資料   
+        匯入外部資料
+        資料修改
+        資料排序
+        繪製圖表
     
-    
+dataframe:pandas資料儲存型態
+          為一個二維資料結構  
+  格式:pandas.DataFrame(資料)        
+
+
+
+
+
+
+
+
+'''
+#匯入pandas模組建立表格並儲存成CSV檔
+import pandas as pd   #設定pd便是就是pandas模組
+datas= [[65,92,78,83,70],[90,72,76,93,56],[81,85,91,89,77],[79,53,47,94,80]]#二維資料
+index = ['李大年','王大同','黃美娟','陳美玲'] #row
+columns = ['國文','數學','英文','自然','社會'] #表格欄位 
+df = pd.DataFrame(datas, columns = columns ,index = index) 
+#帶入相關資料，建立DataFrame格式資料，參數colums=欄位名稱 index = row
+print(df) 
+df.to_csv(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\pdout.csv',encoding = 'utf-8-sig')  
+#儲存方法 to_csv to_excel to_sql to_jason to_html (儲存為XX檔)
+
+--------------------------------------------------
+#pandas讀取方法 csv: read_csv
+import pandas as pd
+rd = pd.read_csv(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\pdout.csv',\
+                 encoding = 'utf-8-sig',index_col = 0)#設定第一欄為index值
+#讀取方法 read_csv read_excel read_sql read_jason read_html (讀取XX檔)
+print(rd)
+
+
+
+------------------------------------
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
