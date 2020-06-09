@@ -4,6 +4,8 @@ numpy模組:建立資料矩陣
 numpy.linspace:產生間隔數列
     格式numpy.linspace(起始,終止,數量,其他參數)
     
+np.arange(1,11)   取1-11 
+    
 '''
 
 import numpy as np
@@ -150,9 +152,10 @@ plt.show()
 #用numpy產生數列畫圖
 import numpy as np
 import matplotlib.pyplot as plt
-x= numpy.linspace(-1,1,50)
+x= np.linspace(-1,1,10) #numpy.linspace(起始,中止,要幾個) 取一數列
 y1=2*x+1
 y2=x**2
+print(x)
 plt.plot(x,y1,ls='--')
 plt.plot(x,y2)
 plt.show()
@@ -193,7 +196,7 @@ plt.show()
 #圓餅圖 修改顯示中文
 import matplotlib.pyplot as plt
 
-#以下三行是PY專用顯示中文的，沒加會沒辦法顯示中文
+#以下三行是PY專用顯示中文的，沒加會沒辦法顯示中文,直接複製貼上
 font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '16'}#設定字形樣式大小
 plt.rc('font', **font) #設定PY繪圖系統的字型項目
 plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
@@ -205,9 +208,10 @@ explode = (0.05,0,0,0) #0表示未分離
 plt.pie(sizes , explode = explode , labels=labels , colors = colors,\
         labeldistance = 1.1 , autopct='%3.1f%%', shadow=True ,\
         startangle = 90 , pctdistance = 0.7) #startangle 逆時針旋轉為正
-plt.axis('equal')
+plt.axis('equal')         #pctdistance 數字%梨園心的距離
 plt.legend(loc = 'lower right',fontsize=10) #只定圖例出現在右下位置 fontsize改圖例字體大小
-plt.show()
+plt.show()   #loc = 可指定圖例的位置 也能用數字1 2 3 4 5 6
+
 
 ----------------------------
 '''
@@ -219,7 +223,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 
-np.random.seed(20180731) #設定亂數種子
+np.random.seed(20131) #設定亂數種子
 
 x =np.arange(0.0,50.0,2.0)  #np.random.rand(裡面要整數)  *x.shape用來轉化數值為int
 y =x**1.3 +np.random.rand(*x.shape)*30.0 #x產生的直若為浮點(非整數)
@@ -228,10 +232,10 @@ print(x)
 print(y)
 print(s) #x,y數據  s:數量的格式(數量越大圖章越大)
 plt.scatter(x ,y , s, c='g', alpha=0.5,label='Luck', marker=r'$\clubsuit$')
-#c:顏色 alpha:透明度 marker:圖形
+#c:顏色 alpha:透明度   marker:圖形
 plt.xlabel('Leprechauns')
 plt.ylabel('Gold')
-plt.legend(loc=2)
+plt.legend(loc=2) #指定圖例的位置
 plt.show()
 
 
@@ -248,6 +252,7 @@ plt.show()
 
 #散布圖s數量隨機 大小就會不一樣
 import matplotlib.pyplot as plt
+import random
 x = [1,2,4,6,8,1,2,9,3]
 y = [5,7,2,3,1,4,6,5,8]
 plt.scatter(x,y,s=[random.randint(1,400) for i in range(len(x))],c='r',alpha = 0.5)
