@@ -5,7 +5,9 @@ numpy.linspace:產生間隔數列
     格式numpy.linspace(起始,終止,數量,其他參數)
     
 np.arange(1,11)   取1-11 
-    
+
+a=numpy.zeros(x,x,3) #(0,0,0,)
+a.fill(64)    #變成(64,64,64)
 '''
 
 import numpy as np
@@ -269,11 +271,13 @@ from matplotlib import pyplot as plt
 filename = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\death_valley_2014.csv'
 with open(filename) as f:
     reader = csv.reader(f)
-    header_row = next(reader)
+    header_row = next(reader)#讀取第0列 標題
     dates ,highs ,lows = [],[],[]
-    for row in reader:
+    print(reader)
+    for row in reader:       
         try:
-            current_date = datetime.strptime(row[0],'%Y-%m-%d')
+            current_date = datetime.strptime(row[0],'%Y-%m-%d')#將字串轉成日期時間格式
+            print(current_date)              #2014/01/01轉成2014-01-01
             high = (int(row[1])-32)*5/9
             low = (int(row[3])-32)*5/9
         except ValueError:
@@ -283,11 +287,11 @@ with open(filename) as f:
             highs.append(high)
             lows.append(low)
             
-fig = plt.figure(dpi=128 , figsize=(5,3))
+fig = plt.figure(dpi=128 , figsize=(5,3))#dpi解析度 figsize 設定會圖區域大小 寬5高3
 plt.plot(dates , highs , c='r',alpha=0.5)            
 plt.plot(dates , lows , c='b',alpha=0.5)  
 plt.fill_between(dates , highs, lows, facecolor = 'blue', alpha=0.1)
-
+#繪圖填充
 title = 'Daily high and low temperatures -2014\nDeath Valley, CA'
 plt.title(title, fontsize=20)
 plt.xlabel('',fontsize=16)
@@ -295,6 +299,82 @@ fig.autofmt_xdate()
 plt.ylabel('Temperature (C)',fontsize=16)
 
 plt.show()
+
+------------------
+#繪圖未填充
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0,5*np.pi ,1000)
+
+y1 = np.sin(x)
+y2 = np.sin(2*x)
+
+plt.plot(x , y1 , label = '$ y = sin(x) $')
+plt.plot(x , y2 , label = '$ y = sin(2*x) $')
+
+plt.show()
+--------------------
+#繪圖填充
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0,5*np.pi ,1000)
+
+y1 = np.sin(x)
+y2 = np.sin(2*x)
+
+plt.fill(x , y1 ,c='g',alpha =0.3 ) #.fill填充圖形區域的顏色 是沒線的
+plt.fill(x , y2 ,c='b' ,alpha =0.3)
+
+plt.show()
+---------------------
+#繪圖未重疊部分填色
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0,5*np.pi ,1000)
+
+y1 = np.sin(x)
+y2 = np.sin(2*x)
+
+plt.plot(x , y1 ,c='g') 
+plt.plot(x , y2 ,c='b')
+plt.fill_between(x , y1, y2, facecolor = 'yellow') #兩個繪圖之間的區域填色 參數只能用facecolor
+plt.show()
+
+---------------------
+#兩繪圖區域之間的部分填色
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.arange(0.0,4.0*np.pi , 0.01) #產生模擬資料
+y = np.sin(x)
+
+plt.plot(x,y)
+plt.plot((x.min() , x.max()),(0,0))#繪製水平基準線 
+
+plt.xlabel('x')
+plt.ylabel('y')
+
+plt.fill_between(x,y, where=(2.3<x) & (x<4.3) | (x>10) , facecolor = 'purple')
+plt.fill_between(x,y, where=(7<x) & (x<8) , facecolor = 'green')
+plt.show()
+-----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
