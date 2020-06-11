@@ -113,7 +113,7 @@ cv.waitKey()
 #用numpy畫圖 三條線 不同顏色粗細
 import cv2 as cv
 import numpy as np
-n=300
+n=300                      #取消正負號，這樣就會沒有負數
 img = np.zeros((n+1,n+1,3),np.uint8)#用np.zeros建立一個都是0(黑色)的圖檔
 img = cv.line(img,(0,0),(n,n),(255,0,0),3) ##(255,0,0)是BGR的顏色數值 3線的粗細
 img = cv.line(img,(0,100),(n,100),(0,255,0),1)
@@ -159,7 +159,7 @@ img = np.zeros((512,512,3),dtype='uint8') #建立512*512的黑色圖片
 #img.shape[1]:圖片的水平寬度(row)
 #img.shape[2]:channel數
 for r in range(0,175,25):
-    cv.circle(img,(img.shape[1] //2, img.shape[0] //2),r,(255,255,255))
+    cv.circle(img,(img.shape[1] //2, img.shape[0] //2),r,(0,0,255))
     #要用商數因位帶入的數值一定要整數
 cv.imshow('image',img)
 cv.waitKey()
