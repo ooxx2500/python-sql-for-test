@@ -833,8 +833,8 @@ pandas模組(資料存取)
 
 繪圖:將數據建立為Series以Pandas繪圖，繪圖使用plot()方法
 
-
-
+    畫圓餅圖:只能一組數據，數值格式化百分比(autopct %格式%%),切開圓形圖(explode)
+   
 
 '''
 
@@ -1040,29 +1040,40 @@ cities = {'population':[10000000,8500000,8000000,15000000,6000000,8000000],
           'area':[400,500,850,300,200,320],
           'town':['new york','chicago','bangkok','tokyo','singapore','hongkong']}
 
-tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])
-print(tw)                #欄為有兩條 可以畫出兩條線
-
+tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])              #欄為有兩條 可以畫出兩條線
+#fig:整體圖表物件
+#ax:第一個軸(含X Y軸)
+#subplot:在一個圖表中繪製不同軸的數據
 fig, ax = plt.subplots()
-fig.suptitle('city statistics')
-ax.set_ylabel('population')
-ax.set_xlabel('city')
+fig.suptitle('city statistics')#設定子繪圖的標題
+ax.set_ylabel('population')#設定y軸文字
+ax.set_xlabel('city')#設定x軸文字
 
-ax2 = ax.twinx()
-ax2.set_ylabel('Area')
-tw['population'].plot(ax=ax, rot=90)
-tw['area'].plot(ax=ax2, style ='g-')
-ax.legend(loc=1)
+ax2 = ax.twinx()#產生一個新軸
+ax2.set_ylabel('Area')#設定新軸的ylabel
+
+tw['population'].plot(ax=ax, rot=45)#rot:旋轉作標刻度,畫藍線
+tw['area'].plot(ax=ax2, style ='r-.')#畫紅線
+print(tw['population']) #用以上兩圖去畫表
+print()
+print(tw['area'])
+
+ax.legend(loc=1)#loc指定圖例的位置
 ax2.legend(loc=2)
 plt.show()
 
 
+-------------------------------------
+#畫圓餅圖:
+import pandas as pd
+import matplotlib.pyplot as plt
 
-
-
-
-
-
+fruits = ['apple','bananas','grapes','pears','oranges']
+s = pd.Series([2300,5000,1200,2500,2900], index=fruits, name='Fruits Shop')
+print(s)
+explode=[0.4,0,0,0.2,0]
+s.plot.pie(explode=explode, autopct='%1.2f%%')
+plt.show()
 
 
 
@@ -1115,6 +1126,122 @@ hongkong.name = 'Hongkong'
 singapore.name = 'Singapore'
 citydf = pd.concat([beijing, hongkong, singapore],axis=1)
 print(citydf)
+
+
+'''
+    
+time():時間序列:數據由時間順序列出，時間維一系列的時間戳記
+    匯入時間模組: from datetime import datetime
+
+    設定特定時間:datetime.datetime(年月日時分秒)
+    時間區間:時間=datatime.timedelta(weeks,days,hours,minutes,seconds)
+        
+    .date_range(起始日期, 終止日期):日期範圍
+
+
+'''
+
+-----------------------------
+#顯示目前時間
+from datetime import datetime
+tn=datetime.now()
+print(type(tn))
+print('現在時間',tn)
+print('')
+
+----------------------
+#取出時間
+from datetime import datetime
+tn=datetime.now()
+print(type(tn))
+print('現在時間',tn)
+print('年 : ',tn.year)
+print('月 : ',tn.month)
+print('日 : ',tn.day)
+print('時 : ',tn.hour)
+print('分 : ',tn.minute)
+print('秒 : ',tn.second)
+
+--------------------------
+#利用timedelta作表單
+import pandas as pd
+from datetime import datetime, timedelta
+
+ndays = 5 #天數
+start = datetime(2019,3,11) #從哪天開始
+dates = [start + timedelta(days=x) for x in range(0,ndays)]
+           #5個日期, 0~4 ,0就是3/11
+print(dates)
+data = [34,44,65,53,39]
+ts = pd.Series(data, index = dates)
+print(type(ts))
+print(ts)
+
+--------------------------
+#兩組series物件互相作運算
+import pandas as pd
+from datetime import datetime, timedelta
+
+ndays = 5 
+start = datetime(2019,3,11)
+dates = [start + timedelta(days=x) for x in range(0,ndays)]
+     
+data1 = [34,44,65,53,39]
+ts1 = pd.Series(data1, index = dates)
+
+data2 = [34,44,65,53,39]
+ts2 = pd.Series(data2, index = dates)
+
+addts = ts1+ts2
+print('ts1+ts2')
+print(addts)
+
+meants = (ts1+ts2)/2
+print('(ts1+ts2)/2')
+print(meants)
+
+----------------------------------
+#date_range(起始日期, 終止日期)建立串列
+import pandas as pd
+import matplotlib.pyplot as plt
+
+dates = pd.date_range('3/11/2019','3/15/2019')#.date_range(起始日期, 終止日期)
+data = [34,44,65,53,39]
+ts = pd.Series(data, index=dates)
+ts.plot(title= 'Data in Time Series')
+plt.xlabel('Date')
+plt.ylabel('Data')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
