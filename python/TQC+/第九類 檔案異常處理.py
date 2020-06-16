@@ -71,7 +71,7 @@ Average weight: 65.00
 The tallest is Ben with 175.00cm
 The heaviest is Tony with 75.00kg
 '''
-
+#%%
 data=[]
 with open(r'C:\Users\ASUS\Documents\Python-SQL\python\TQC+\9_txt\read904.txt' \
           ,'r')as file:
@@ -84,7 +84,7 @@ with open(r'C:\Users\ASUS\Documents\Python-SQL\python\TQC+\9_txt\read904.txt' \
 name = [data[x][0]for x in range(len(data))]  #將data資料中的姓名取出來成一個串列
 height = [data[x][1]for x in range(len(data))] #將data資料中的身高取出來成一個串列
 weight = [data[x][2]for x in range(len(data))] #將data資料中的體重取出來成一個串列
-
+#%%
 print('Average height: %.2f'%(sum(height)/len(height)))
 print('Average weight: %.2f'%(sum(weight)/len(weight)))
 
@@ -92,7 +92,7 @@ max_h = max(height)
 max_w = max (weight)
 print('The tallest is %s with %.2fcm' % (name[height.index(max_h)],max_h))
 print('The heaviest is %s with %.2fkg' % (name[weight.index(max_w)],max_w))
-                 #用身高最高的數值在該串列中的索引套用在姓名的索引，找出身高最高的姓名
+                  #用身高最高的數值在該串列中的索引套用在姓名的索引，找出身高最高的姓名
 
 
 '''
@@ -120,10 +120,11 @@ pen trunks pants
 watch shoes skirt
 sneakers trunks pants
 '''
+#%%
 f_name = input()
 str_old = input()
 str_new = input()
-
+#%%
 infile = open(f_name,'r')
 data = infile.read()
 
