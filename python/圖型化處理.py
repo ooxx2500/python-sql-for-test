@@ -13,7 +13,7 @@ a.fill(64)    #變成(64,64,64)
 import numpy as np
 
 arr = np.array([[1,2,3],[4,5,6]])#建立一個np陣列(2*3的矩陣)
-print(arr)
+print(arr.ndim, arr.shape)
 
 arr2=np.array([1,2,3,4,5,6])
 arr3=arr2.reshape(2,3) #將一維重新排列成2*3 二維矩陣

@@ -271,9 +271,10 @@ print(d2)
 
 --------------------------------------------------
 #將JSON檔轉為python物件
+#用PY讀取JSON檔
 
 import json
-with open(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\ubike_1.json',encoding = 'utf8')\
+with open(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\ubike_1.json',encoding = 'utf8')
     as file:
     data = json.load(file)    
     for item in data:
