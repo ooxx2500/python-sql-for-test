@@ -843,7 +843,8 @@ pandas模組(資料存取)
 import pandas as pd
 data=[{'apple':50,'orange':30,'grape':80},{'apple':50,'grape':80},{'noma':5}]
 #字典的key若無對應，則對應處將填入NaN
-fruits = pd.DataFrame(data)
+index=['lst1','lst2','lst3']
+fruits = pd.DataFrame(data,index=index)
 print(fruits)
 --------------------------
 #建立DataFrame 直接用字典建立(字典直向排列)
@@ -936,7 +937,7 @@ nature= [15,10,13,10,15]
 social= [12,11,14,9,14]
 df = pd.DataFrame([chinese,eng,math,nature,social], columns=course, 
                   index= range(1,6))
-
+print(df)
 df.to_csv(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\out_a.csv')
 #a 將dataframe寫入csv
 df.to_csv(r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\out_b.csv', 
@@ -958,7 +959,7 @@ print(y)
 
 
 -------------------------
-#用pandas去畫圖
+#用pandas去畫圖 在pd.Series中index會畫成x軸,第一個參數串列會是y軸
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -996,7 +997,7 @@ cities = {'population':[1000,850,800,1600,600,800],
           'town':['new york','chicago','bangkok','tokyo','singapore','hongkong']}
 
 tw = pd.DataFrame(cities, columns=['population'],index=cities['town'])
-
+print(tw)
 tw.plot(title= 'population in the world',kind='bar')#參數bar就變成直條圖了
 plt.xlabel('city')
 plt.ylabel('Population')
@@ -1013,7 +1014,7 @@ cities = {'population':[1000,850,800,1500,600,800],
 
 tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])
 print(tw)                #欄為有兩條 可以畫出兩條線
-tw.plot(title= 'population in the world')#參數bar就變成直條圖了
+tw.plot(title= 'population in the world',rot=45)#參數bar就變成直條圖了 rot=X軸座標轉45度
 plt.xlabel('city')
 plt.show()
 -------------------------
@@ -1048,18 +1049,19 @@ fig, ax = plt.subplots()
 fig.suptitle('city statistics')#設定子繪圖的標題
 ax.set_ylabel('population')#設定y軸文字
 ax.set_xlabel('city')#設定x軸文字
-
+print(tw)
+print()
 ax2 = ax.twinx()#產生一個新軸
 ax2.set_ylabel('Area')#設定新軸的ylabel
 
 tw['population'].plot(ax=ax, rot=45)#rot:旋轉作標刻度,畫藍線
-tw['area'].plot(ax=ax2, style ='r-.')#畫紅線
+tw['area'].plot(ax=ax2, style ='r-.')#軸去對上ax2畫紅線
 print(tw['population']) #用以上兩圖去畫表
 print()
 print(tw['area'])
 
-ax.legend(loc=1)#loc指定圖例的位置
-ax2.legend(loc=2)
+ax.legend(loc=1)#loc指定圖例的位置 右上
+ax2.legend(loc=2) #左上
 plt.show()
 
 
@@ -1076,24 +1078,22 @@ s.plot.pie(explode=explode, autopct='%1.2f%%')
 plt.show()
 
 
-
-
-
-
-
 ------------------------------------
 #pandas.series(data , index , dtype ,name)
+#資料合併.concat 預設垂直並排
 import pandas as pd
 years = range(2020,2023)#index
 beijing = pd.Series([20,21,19],index = years)#設定Series物件
+print(beijing)
 hongkong = pd.Series([25,26,27],index = years)#用index去對應data的值
 singapore = pd.Series([30,29,31],index = years)#ex: 2020對20 2021對21 2022對19
 citydf = pd.concat([beijing, hongkong, singapore])
 print(type(citydf)) #concat():資料合併    concat([要合併的資料])
 print(citydf)
 
+
 ----------------------------
-#更改concat參數
+#更改concat參數 concat([要合併的資料],axis = 1) 顯示索引對上的data
 import pandas as pd
 years = range(2020,2023)
 beijing = pd.Series([20,21,19],index = years)
@@ -1104,7 +1104,7 @@ print(type(citydf))#concat([要合併的資料],axis = 1) 顯示索引對上的d
 print(citydf)      #一個欄column就是一個series資料，非直向排列
 
 --------------------------
-#更改concat參數 將columns改成城市名
+#更改concat參數 將columns改成城市名 .columns方法
 import pandas as pd
 years = range(2020,2023)
 beijing = pd.Series([20,21,19],index = years)
@@ -1124,8 +1124,34 @@ singapore = pd.Series([30,29,31],index = years)
 beijing.name ='Beijing' #用Series資料去.name ,在合併concat時不用在打
 hongkong.name = 'Hongkong'
 singapore.name = 'Singapore'
+print(beijing)
+print()
 citydf = pd.concat([beijing, hongkong, singapore],axis=1)
 print(citydf)
+
+-----------------------------------
+#以下方法 name = XX 等同上面的做法
+#合併時自動寫入column
+
+import pandas as pd
+years = range(2020,2023)   #在series中增加name參數
+beijing = pd.Series([20,21,19],index = years, name ='Beijing')#建立series資料
+hongkong = pd.Series([25,26,27],index = years, name = 'Hongkong')
+singapore = pd.Series([30,29,31],index = years, name = 'Singapore')
+
+print(beijing)
+print()
+citydf = pd.concat([beijing, hongkong, singapore],axis=1)
+print(citydf)
+
+
+
+
+
+
+
+
+
 
 
 '''
@@ -1208,6 +1234,7 @@ import matplotlib.pyplot as plt
 dates = pd.date_range('3/11/2019','3/15/2019')#.date_range(起始日期, 終止日期)
 data = [34,44,65,53,39]
 ts = pd.Series(data, index=dates)
+print(ts)
 ts.plot(title= 'Data in Time Series')
 plt.xlabel('Date')
 plt.ylabel('Data')

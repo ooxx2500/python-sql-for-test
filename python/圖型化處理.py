@@ -15,6 +15,10 @@ import numpy as np
 arr = np.array([[1,2,3],[4,5,6]])#建立一個np陣列(2*3的矩陣)
 print(arr)
 
+arr2=np.array([1,2,3,4,5,6])
+arr3=arr2.reshape(2,3) #將一維重新排列成2*3 二維矩陣
+print(arr3)
+
 ran_arr=np.random.random((4,2))#建立4*2隨機矩陣 0~1
 print(ran_arr)
 ---------------------------------
@@ -23,6 +27,10 @@ import numpy as np
 a = np.floor(5*np.random.random((2,12)))
 print(a)
 
+import numpy as np
+a = np.floor(10*np.random.random((2,12)))
+print(a)
+#np.floor(數值) 取小於述職的整數
 '''
 資料視覺化:繪圖
 Matplotlib模組:
@@ -165,7 +173,7 @@ plt.show()
 #設定線條圖形顏色
 import numpy as np
 import matplotlib.pyplot as plt
-x= numpy.linspace(-1,1,20)
+x= np.linspace(-1,1,20)
 y1=2*x+1
 y2=x**2
 plt.plot(x,y1,'ob') #o:圖標記 o:圓形 p:五邊型 s:正方形 x:十字 v:倒三角 ^:正三角 *:星型 h:六邊型 H:六邊型
@@ -207,8 +215,8 @@ labels = ['東部','南部','北部','中部']
 sizes=[5,10,20,15]
 colors = ['red','green','blue','yellow']
 explode = (0.05,0,0,0) #0表示未分離 
-plt.pie(sizes , explode = explode , labels=labels , colors = colors,\
-        labeldistance = 1.1 , autopct='%3.1f%%', shadow=True ,\
+plt.pie(sizes , explode = explode , labels=labels , colors = colors,
+        labeldistance = 1.1 , autopct='%3.1f%%', shadow=True ,
         startangle = 90 , pctdistance = 0.7) #startangle 逆時針旋轉為正
 plt.axis('equal')         #pctdistance 數字%梨園心的距離
 plt.legend(loc = 'lower right',fontsize=10) #只定圖例出現在右下位置 fontsize改圖例字體大小
