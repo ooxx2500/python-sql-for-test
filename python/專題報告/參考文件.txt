@@ -1,0 +1,3 @@
+新車發牌數
+
+https://stat.thb.gov.tw/hb01/webMain.aspx?sys=220&ym=10801&ymt=10812&kind=21&type=1&funid=1120001&cycle=41&outmode=0&compmode=0&outkind=1&fldspc=0,2,26,1,&rdm=R104571

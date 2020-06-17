@@ -44,6 +44,13 @@ Matplotlib模組:
               linestyle='--':虛線  '-':實線  '-.':點虛線  ':'點線 
               ls = '--' 同上
               label = 'Female' 線的標籤名稱
+              
+plt.xticks(rotation= ) 旋轉 Xticks 標籤文字
+fig.autofmt_xdate(rotation= ) 旋轉 Xticks 標籤文字
+ax.set_xticklabels(xlabels, rotation= ) 旋轉 Xticks 標籤文字
+plt.setp(ax.get_xticklabels(), rotation=) 旋轉 Xticks 標籤文字
+ax.tick_params(axis='x', labelrotation= ) 旋轉 Xticks 標籤文字 
+
 
 '''
 #用Matplotlib繪圖
