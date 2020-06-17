@@ -13,7 +13,7 @@ a.fill(64)    #變成(64,64,64)
 import numpy as np
 
 arr = np.array([[1,2,3],[4,5,6]])#建立一個np陣列(2*3的矩陣)
-print(arr)
+print(arr.ndim, arr.shape)
 
 ran_arr=np.random.random((4,2))#建立4*2隨機矩陣 0~1
 print(ran_arr)
