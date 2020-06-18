@@ -2,6 +2,36 @@
 """
 x= np.arange(0, 3 * np.pi ,0.1)
 #np.arrange= np的範圍 0開始到3*pi 間格為0.1
+
+np的屬性功能 (執行屬性後不會改變原始ndarray資料)
+    ndim   顯示幾維
+    shape  用tuple顯示ndarry形狀
+    T      回傳轉置後的陣列Ex:shape(2,3)會轉為(3,2)
+    data   顯示記憶體位置
+    dtype  顯示ndarry的資料型別
+    flat   將nadarry物件轉為1維陣列
+    imag   顯示ndarry的虛數部分
+    real   顯示ndarry的實數部分
+    size   顯示ndarry的總元素量
+    itemsize  以byte為單位位元顯示每個元素記憶體使用量
+    nbytes    以byte為單位位元顯示全部元素記憶體使用量
+    strides   步長用tuple顯示各維一棟一個元素需要的byte數
+    
+np的方法
+    np.sum()     np加總
+    np.prod()    計算元素的乘積
+    np.mean()    計算元素的平均
+    np.median()  計算元素的中位數元素
+    np.min()     找到最小
+    np.max()     找到最大
+    np.argmin()  查找最小索引直
+    np.argmax()  查找最大索引直
+    np.any()     評估是否有任何元素為真
+    np.std()     計算標準差
+    np.var()     計算(均)方差，np.std()的平方等於np.var()
+    np.all()     評估所有元素是否都為真
+    np.percentile()  計算元素雞魚排名的統計數據(第%分位的數值)
+
 """
 import numpy as np
 

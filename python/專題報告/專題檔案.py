@@ -14,7 +14,7 @@ plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數�
 
 
 data=[]
-with open(r'C:\Users\莫再提\Documents\python-sql-for-test\python\專題報告\108年交通B.csv','r',encoding = 'utf8') \
+with open(r'C:\Users\ASUS\Documents\Python-SQL\python\專題報告\108年交通B.csv','r',encoding = 'utf8') \
     as csvfile:#用編碼utf8開啟
         plots = csv.reader(csvfile, delimiter = ',')#用reader方法讀取 plots是個串列
                               #用delimiter設定資料以逗號分隔字元，藉以取出每個資料
