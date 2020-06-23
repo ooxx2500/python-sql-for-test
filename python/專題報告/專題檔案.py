@@ -14,7 +14,7 @@ plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數�
 
 
 data=[]
-with open(r'C:\Users\莫再提\Documents\python-sql-for-test\python\專題報告\109年交通A2.csv','r',encoding = 'utf-8') \
+with open(r'C:\Users\ASUS\Desktop\107年交通A1.csv','r',encoding = 'utf-8') \
     as csvfile:#用編碼utf8開啟
         plots = csv.reader(csvfile, delimiter = ',')#用reader方法讀取 plots是個串列
                               #用delimiter設定資料以逗號分隔字元，藉以取出每個資料
@@ -46,7 +46,7 @@ for i in range(len(data)): #統計區域事故人數
     else:
         area_dic[district] +=1
         
-    if month_date not in date_dic:
+    if month_date not in date_dic: #月份的車禍數(無重複)
         date_dic[month_date]=1
     else:
         date_dic[month_date] +=1
@@ -69,7 +69,7 @@ for i in range(len(data)): #統計區域事故人數
                 
             else:
                 scooter_area_dic[district] += 1
-        break
+                break
 
             
             
@@ -82,14 +82,16 @@ for i in range(len(data)): #統計區域事故人數
                 
             else:
                 scooter_dic[district] += 1
-print(scooter_area_dic)              
-    
+   
 
 #算出只含汽車的字典
                 
 only_cars=cars_dic.copy()#從總事故字典複製一份到only_cars
-del_lst=[]               
+del_lst=[]
+# print('******only_cars********')  
+# print(only_cars)           
 for i in only_cars:  #i就是車種
+    
     if '機車' in i :
         total_not_cars+=only_cars[i]
         del_lst.append(i)
@@ -107,16 +109,16 @@ for i in only_cars:  #i就是車種
         
 for i in del_lst:     #從複製的字典中依序刪除其他車種
     del only_cars[i]
-
-total_only_cars=total_cards-total_not_cars 
+# print('******after del only_cars********')  
+# print(only_cars) 
+total_only_cars=total_cards-total_not_cars #總汽車數 = 所有車種數 - 所有非汽車數
 total_other_cars=total_not_cars-total_scooter
-print(total_cards)
-print(total_scooter)   
-print(total_only_cars)
-print(total_other_cars)
+# print(total_cards)
+# print(total_scooter)   
+# print(total_only_cars)
+# print(total_other_cars)
 
-
-def dict_list(x):#字典變2串列
+def dict_list(x):#定義字典變2串列函式
     lst1=[]
     lst2=[]
     for i in x:
@@ -126,7 +128,7 @@ def dict_list(x):#字典變2串列
     
 
     
-#畫日期圖    
+#畫日期圖 (月份)   
 dates , date_counts = dict_list(date_dic)
     
     
@@ -164,6 +166,7 @@ district_scooter , scooter_count=list_to_2list(list_scooter_sort)
 
 
 print(list_area_sort)
+print('---------------------')
 print(list_scooter_sort)
 
    

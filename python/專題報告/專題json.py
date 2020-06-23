@@ -7,7 +7,7 @@ Created on Fri Jun 19 22:52:37 2020
 
 import json
 import pandas as pd
-with open(r'C:\Users\莫再提\Downloads\109交通A1.json',encoding = 'utf8')as file:
+with open(r'C:\Users\ASUS\Documents\Python-SQL\python\專題報告\109交通A.json',encoding = 'utf8')as file:
     data = json.load(file)    
     
         
@@ -25,8 +25,8 @@ total_scooter=0
 total_cards=0
 total_not_cars=0  #非四輪車總數
 all_cars=[]
-df=df.drop([768,769],axis=0) #刪除尾端三欄費資料
-
+#df=df.drop([768,769],axis=0) #刪除尾端三欄費資料
+print(df)
 #----------------------------------------
 for i in range(len(df)): #統計區域事故人數
     district = df['發生地點'][i][0:3]
@@ -35,23 +35,14 @@ for i in range(len(df)): #統計區域事故人數
     cars=df['車種'][i]
     all_cars.append(cars.split(';'))
     
-
-    print(month_date)
-    print(district)
+    # print('****month_date****')
+    # print(month_date)
+    # print('****district****')
+    # print(district)
+    print('****cars****')
     print(cars)
-    print(all_cars)
-
-
-
-
-
-
-#----------------------------------------
-
-all_cars=[]
-for i in df['車種']:
-    all_cars.append(i.split(';'))
-
+    # #print('****all_cars****')
+    # #print(all_cars)
 
 #機車字典一個縣市只計一次
 for i in range(len(all_cars)): 
