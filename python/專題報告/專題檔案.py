@@ -7,14 +7,14 @@ Created on Wed Jun 17 11:58:12 2020
 from matplotlib import pyplot as plt
 import csv
 
-font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '10'}#設定字形樣式大小
+font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '8'}#設定字形樣式大小
 plt.rc('font', **font) #設定PY繪圖系統的字型項目
 plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
 
 
 
 data=[]
-with open(r'C:\Users\ASUS\Desktop\107年交通A1.csv','r',encoding = 'utf-8') \
+with open(r'C:\Users\ASUS\Desktop\109A.csv','r',encoding = 'utf-8') \
     as csvfile:#用編碼utf8開啟
         plots = csv.reader(csvfile, delimiter = ',')#用reader方法讀取 plots是個串列
                               #用delimiter設定資料以逗號分隔字元，藉以取出每個資料
@@ -83,7 +83,8 @@ for i in range(len(data)): #統計區域事故人數
             else:
                 scooter_dic[district] += 1
    
-
+#print(scooter_area_dic)
+print(scooter_dic)
 #算出只含汽車的字典
                 
 only_cars=cars_dic.copy()#從總事故字典複製一份到only_cars
@@ -165,15 +166,15 @@ areas , area_counts=list_to_2list(list_area_sort)
 district_scooter , scooter_count=list_to_2list(list_scooter_sort)  
 
 
-print(list_area_sort)
-print('---------------------')
-print(list_scooter_sort)
+# print(list_area_sort)
+# print('---------------------')
+# print(list_scooter_sort)
 
    
     
 x=areas
 y=area_counts
-plt.bar(x,y,align='edge',width=-0.5,color='b',label='全車種事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
+plt.bar(x,y,align='edge',width=-0.5,color='#0080FF',label='全車種事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
 plt.title('**')
 plt.ylabel('Y axis')
@@ -183,7 +184,7 @@ plt.xlabel('X axis')
     
 x1=district_scooter
 y1=scooter_count
-plt.bar(x1,y1,align='edge',width=0.5,color='r',label='含機車事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
+plt.bar(x1,y1,align='edge',width=0.5,color='#FF5151',label='含機車事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
 plt.title('107年分區事故圖-A1類')
 plt.ylabel('事故總數')

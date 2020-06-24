@@ -308,13 +308,36 @@ cv.destroyAllWindows
 
 
 ---------------------------------
+"""
+影像加法運算:灰階影像中像素以8位元表示，像素值範圍0~255，像素的飽和值為255(最大值)
+
+  影像加法:兩影像對應得像素值相加，如果<=255 直接相加
+                           ，如果>255，將結果mod256得出結果 Ex:(255+58)%256=57
+  add():影像像素相加，如果<=255 直接相加
+                 ，如果>255 值接等於最大值255
+    格式:cv2.add(影像1,影像2)
+                           
+  
 
 
+"""
+#測式兩陣列相加
+import numpy as np
+img1=np.random.randint(0,256,size=[3,3],dtype=np.uint8)#建立兩個模擬圖像，數值0~255
+img2=np.random.randint(0,256,size=[3,3],dtype=np.uint8)
+print('img1=\n', img1)
+print('img2=\n', img2)
+print('img1+img2=\n', img1+img2)
 
-
-
-
-
-
+--------------------
+#兩圖片相加 最大值255
+import cv2 as cv
+import numpy as np
+img1=np.random.randint(0,256,size=[3,3],dtype=np.uint8)#建立兩個模擬圖像，數值0~255
+img2=np.random.randint(0,256,size=[3,3],dtype=np.uint8)
+print('img1=\n', img1)
+print('img2=\n', img2)
+img3=cv.add(img1,img2)
+print('cv.add(img1+img2)=\n', img3)
 
 

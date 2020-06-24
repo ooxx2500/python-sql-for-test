@@ -10,11 +10,11 @@ import pandas as pd
 with open(r'C:\Users\ASUS\Documents\Python-SQL\python\專題報告\109交通A.json',encoding = 'utf8')as file:
     data = json.load(file)    
     
-        
+       
 
 #用pd將表格分成三藍
 df = pd.DataFrame(data,columns=['發生時間','發生地點','車種'])
-
+print(df)
 new_data=[] 
 area_dic=dict() #地區分類
 date_dic=dict() #月份車禍
@@ -39,26 +39,25 @@ for i in range(len(df)): #統計區域事故人數
     # print(month_date)
     # print('****district****')
     # print(district)
-    print('****cars****')
-    print(cars)
+    #print('****cars****')
+    #print(cars)
     # #print('****all_cars****')
     # #print(all_cars)
 
-#機車字典一個縣市只計一次
+#機車字典一個縣市只計一次(OK)
 for i in range(len(all_cars)): 
     for ii in all_cars[i]:
         if '機車' in ii:
             if df['發生地點'][i][0:3] not in scooter_area_dic:
                 scooter_area_dic[df['發生地點'][i][0:3]] =1
-                
+                break
             else:
-                scooter_area_dic[df['發生地點'][i][0:3]] +=1
-                
-        break
-
-#print(scooter_area_dic)
+                scooter_area_dic[df['發生地點'][i][0:3]] +=1               
+                break
+# print('****print(scooter_area_dic)******')
+# print(scooter_area_dic)
         
-#機車字典一個縣市計重複出現次數
+#機車字典一個縣市計重複出現次數(OK)
 for i in range(len(all_cars)): 
     for ii in all_cars[i]:
         if '機車' in ii:
@@ -67,5 +66,5 @@ for i in range(len(all_cars)):
             else:
                 scooter_dic[df['發生地點'][i][0:3]] +=1
        
-
-#print(scooter_dic)
+print('****print(scooter_dic)******')
+print(scooter_dic)
