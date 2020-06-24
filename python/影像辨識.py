@@ -340,4 +340,30 @@ print('img2=\n', img2)
 img3=cv.add(img1,img2)
 print('cv.add(img1+img2)=\n', img3)
 
+--------------------
+import cv2 as cv
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena.jpg',0)
+a=img
+result1=a+img
+result2=cv.add(img,a)
+cv.imshow('image',img)
+cv.imshow('image1',result1)
+cv.imshow('image2',result2)
+cv.waitKey()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
