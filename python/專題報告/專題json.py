@@ -7,7 +7,7 @@ Created on Fri Jun 19 22:52:37 2020
 
 import json
 import pandas as pd
-with open(r'C:\Users\ASUS\Documents\Python-SQL\python\專題報告\109交通A.json',encoding = 'utf8')as file:
+with open(r'C:\Users\莫再提\Desktop\109交通A.json',encoding = 'utf8')as file:
     data = json.load(file)    
     
        

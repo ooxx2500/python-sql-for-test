@@ -1,28 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 17 11:58:12 2020
+Created on Wed Jun 24 19:15:21 2020
 
-@author: ooxx2
+@author: 莫再提
 """
-from matplotlib import pyplot as plt
-import csv
-
-font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '8'}#設定字形樣式大小
-plt.rc('font', **font) #設定PY繪圖系統的字型項目
-plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
-
-
 
 data=[]
-with open(r'C:\Users\莫再提\Documents\python-sql-for-test\python\專題報告\108年交通A2.csv.csv','r',encoding = 'utf-8') \
-    as csvfile:#用編碼utf8開啟
-        plots = csv.reader(csvfile, delimiter = ',')#用reader方法讀取 plots是個串列
-                              #用delimiter設定資料以逗號分隔字元，藉以取出每個資料
-    
-        for i in plots:
-            data.append(i)
- 
-del data[0]
+import json
+from matplotlib import pyplot as plt
+import pandas as pd
+with open(r'C:\Users\莫再提\Desktop\109交通A.json',encoding = 'utf8')as file:
+    rf = json.load(file)
+
+    for thems in rf:
+        data.append([thems['發生時間'],thems['發生地點'],thems['死亡受傷人數'],thems['車種']])
+
 del data[-2:] #刪除表單的頭尾去除砸資料
 print(data[-1])
 
@@ -85,9 +77,8 @@ for i in range(len(data)): #統計區域事故人數
             else:
                 scooter_dic[district] += 1
    
-print('scooter_area_dic:',scooter_area_dic)
-print()
-print('scooter_dic:',scooter_dic)
+#print(scooter_area_dic)
+print(scooter_dic)
 #算出只含汽車的字典
                 
 only_cars=cars_dic.copy()#從總事故字典複製一份到only_cars
@@ -204,7 +195,7 @@ plt.show()
 #劃出總事故比率圓餅圖(汽車 機車 及其他)
 
 
-labels = ['機車','汽車','其他']
+labels = ['車機','汽車','其他']
 sizes=[total_scooter,total_only_cars,total_other_cars]
 colors = ['red','green','y']
 explode = (0.1,0,0) #0表示未分離 
@@ -216,7 +207,5 @@ plt.title("107年總事故比率-A1類")
 plt.legend(loc = 'lower left',fontsize=12) 
 plt.show()   
 
-       
-#-----------------
-
-
+    
+    

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 17 11:58:12 2020
+Created on Thu Jun 25 13:05:58 2020
 
-@author: ooxx2
+@author: 莫再提
 """
+
+
 from matplotlib import pyplot as plt
 import csv
 
@@ -71,9 +73,7 @@ for i in range(len(data)): #統計區域事故人數
                 
             else:
                 scooter_area_dic[district] += 1
-                break
-
-            
+                break           
             
     for car in type_cars:  #找出含機車的縣市總數(包含重複值的)
         if '機車' in car:
@@ -122,6 +122,80 @@ total_other_cars=total_not_cars-total_scooter
 # print(total_only_cars)
 # print(total_other_cars)
 
+
+# -------------------------用爬蟲抓取網頁機車登記資料表格
+import requests
+from bs4 import BeautifulSoup
+
+#查詢車輛登記網址 https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=100&funid=b3301 
+#107年 
+htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10701&ymt=10712&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=4pgqhmtm'
+
+#108年 
+#htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10801&ymt=10812&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=lxacdcYa'
+#109年1-5月 
+#htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10901&ymt=10905&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=9eWWqani'
+
+
+html = requests.get(htm).text 
+
+
+soup = BeautifulSoup(html, 'html.parser')
+table = soup.find('table',class_='tblcls') 
+
+trs =  table.find_all('tr')
+area_ths=trs[1].find_all('th')
+area_list=[] #縣市
+
+for th in area_ths: #爬縣市
+    area_list.append(th.text.strip())
+del area_list[0]
+
+all_cars_data=[]
+    
+for i in range(len(trs)): #爬放在TD內的數據
+    tds=trs[i].find_all('td')
+    all_cars_data.append([])
+    for td in tds:
+        if td.text==''or eval(td.text.strip().replace(',',''))=='':
+            continue
+        else:
+        
+            all_cars_data[i].append(eval(td.text.strip().replace(',','')))        
+
+del all_cars_data[0:2] #刪除前兩個[] []的串列
+
+import pandas as pd
+
+
+df=pd.DataFrame(all_cars_data,columns=area_list)
+#print(all_cars_data_array)
+
+
+df=df.drop(['總計','臺灣地區'],axis=1) #刪除兩欄沒用的資訊
+print(df)
+total_area_dict=dict()   #加總個欄位的數量
+for area in df:
+    t=df[area].sum()
+    total_area_dict[area]=t
+    
+print('total_area_dict',total_area_dict)
+
+
+
+scooter_dic_cp= scooter_dic.copy()
+scooter_dic_cp['金馬地區']=scooter_dic_cp['金門縣']+scooter_dic_cp['連江縣']
+del scooter_dic_cp['金門縣']
+del scooter_dic_cp['連江縣']
+
+rate_scooter_dic=dict() #算出各縣市總機車事故/各縣市登記的機車數=各縣市機車出示的比率
+for i in scooter_dic_cp:
+    rate_scooter_dic[i]=scooter_dic_cp[i]/total_area_dict[i]
+    
+print('rate_scooter_dic:',rate_scooter_dic)
+
+
+
 def dict_list(x):#定義字典變2串列函式
     lst1=[]
     lst2=[]
@@ -151,8 +225,6 @@ plt.show()
 
 
 list_area_sort=sorted(area_dic.items(), key=lambda item:item[1],reverse=1)
-
-
 list_scooter_sort=sorted(scooter_area_dic.items(), key=lambda item:item[1],reverse=1)
 
 def list_to_2list(lst): #定義函式將column=2的串列轉為兩個串列
@@ -218,5 +290,52 @@ plt.show()
 
        
 #-----------------
+
+
+# rate_scooter_dic=sorted(rate_scooter_dic.items(), key=lambda item:item[1],reverse=1)
+# print(rate_scooter_dic)
+print('**********************')
+areass, rates= dict_list(rate_scooter_dic)
+
+avg_rate_dic=dict()
+
+
+total=sum(rates)
+for i in range(len(rates)):
+    avg_rate_dic[areass[i]]=rates[i]/total
+    
+print(avg_rate_dic)
+
+rate_scooter_dic=sorted(avg_rate_dic.items(), key=lambda item:item[1],reverse=1)
+print(rate_scooter_dic)
+
+areass, rates = list_to_2list(rate_scooter_dic)
+
+print(areass)
+print('+++++++++++++++++++++++++++++++++')
+print(rates)
+#-----------------------------------------
+
+
+#劃出各縣市機車造事比率
+x=areass
+y=rates
+plt.bar(x,y,align='center',width=0.7,color='#0080FF',label='全車種事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
+
+plt.title('107年機車加權後分區事故圖-A1類')
+plt.ylabel('出事比率')
+plt.xlabel('')
+plt.xticks(rotation=45 ) #旋轉 Xticks 標籤文字 
+plt.show()             
+
+
+
+
+
+
+
+
+
+
 
 
