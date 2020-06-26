@@ -224,8 +224,8 @@ colors = ['red','green','blue','yellow']
 explode = (0.05,0,0,0) #0表示未分離 
 plt.pie(sizes , explode = explode , labels=labels , colors = colors,
         labeldistance = 1.1 , autopct='%3.1f%%', shadow=True ,
-        startangle = 90 , pctdistance = 0.7) #startangle 逆時針旋轉為正
-plt.axis('equal')         #pctdistance 數字%梨園心的距離
+        startangle = 90 , pctdistance = 0.7,textprops = {"fontsize" : 12}) #startangle 逆時針旋轉為正
+plt.axis('equal')         #pctdistance 數字%梨園心的距離 textprops 文字大小
 plt.legend(loc = 'lower right',fontsize=10) #只定圖例出現在右下位置 fontsize改圖例字體大小
 plt.show()   #loc = 可指定圖例的位置 也能用數字1 2 3 4 5 6
 
