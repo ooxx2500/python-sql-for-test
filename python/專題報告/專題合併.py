@@ -26,7 +26,7 @@ with open(r'C:\Users\莫再提\Documents\python-sql-for-test\python\專題報告
  
 del data[0]
 del data[-2:] #刪除表單的頭尾去除砸資料
-print(data[-1])
+# print(data[-1])
 
 
 new_data=[] 
@@ -45,10 +45,7 @@ for i in range(len(data)): #統計區域事故人數
     month_date =date[4:7]#取出年度月份
     year=date[0:4]
     
-    if district not in area_dic:
-        area_dic[district]=1
-    else:
-        area_dic[district] +=1
+
         
     if month_date not in date_dic: #月份的車禍數(無重複)
         date_dic[month_date]=1
@@ -63,7 +60,14 @@ for i in range(len(data)): #統計區域事故人數
             cars_dic[ii] = 1
         else:
             cars_dic[ii]+=1
-
+#------------------------------------            
+    for car in type_cars:  #找出各縣所有機車種數
+        if  district not in area_dic:      
+            area_dic[district]=1
+        else:
+            area_dic[district] +=1
+        
+    
     for car in type_cars:  #找出含機車的縣市(計算一次含機車的用BREAK)
         if '機車' in car:
            
@@ -85,9 +89,9 @@ for i in range(len(data)): #統計區域事故人數
             else:
                 scooter_dic[district] += 1
    
-print('scooter_area_dic:',scooter_area_dic)
-print()
-print('scooter_dic:',scooter_dic)
+# print('scooter_area_dic:',scooter_area_dic)
+# print()
+# print('****************scooter_dic:',scooter_dic)
 #算出只含汽車的字典
                 
 only_cars=cars_dic.copy()#從總事故字典複製一份到only_cars
@@ -179,7 +183,7 @@ for area in df:
     t=df[area].sum()
     total_area_dict[area]=t
     
-print('total_area_dict',total_area_dict)
+# print('total_area_dict',total_area_dict)
 
 
 
@@ -192,7 +196,7 @@ rate_scooter_dic=dict() #算出各縣市總機車事故/各縣市登記的機車
 for i in scooter_dic_cp:
     rate_scooter_dic[i]=scooter_dic_cp[i]/total_area_dict[i]
     
-print('rate_scooter_dic:',rate_scooter_dic)
+# print('rate_scooter_dic:',rate_scooter_dic)
 
 
 
@@ -222,10 +226,18 @@ plt.show()
 #---------------------------------------------------------------------------
     
 #畫全車種地區圖
-
+# print('Before sort')
+# print(area_dic)
 
 list_area_sort=sorted(area_dic.items(), key=lambda item:item[1],reverse=1)
+# print('After sorted')
+# print(list_area_sort)
+
+
 list_scooter_sort=sorted(scooter_area_dic.items(), key=lambda item:item[1],reverse=1)
+
+
+
 
 def list_to_2list(lst): #定義函式將column=2的串列轉為兩個串列
     lst1=[]
@@ -244,7 +256,7 @@ district_scooter , scooter_count=list_to_2list(list_scooter_sort)
 # print(list_area_sort)
 # print('---------------------')
 # print(list_scooter_sort)
-
+print("機車發生事故位加權前五名:",district_scooter[0:5])
    
     
 x=areas
@@ -259,6 +271,7 @@ plt.xlabel('X axis')
     
 x1=district_scooter
 y1=scooter_count
+
 plt.bar(x1,y1,align='edge',width=0.5,color='#FF5151',label='含機車事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
 plt.title('107年分區事故圖-A1類')
@@ -290,11 +303,8 @@ plt.show()
 
        
 #-----------------
-
-
 # rate_scooter_dic=sorted(rate_scooter_dic.items(), key=lambda item:item[1],reverse=1)
 # print(rate_scooter_dic)
-print('**********************')
 areass, rates= dict_list(rate_scooter_dic)
 
 avg_rate_dic=dict()
@@ -304,16 +314,17 @@ total=sum(rates)
 for i in range(len(rates)):
     avg_rate_dic[areass[i]]=rates[i]/total
     
-print(avg_rate_dic)
+# print(avg_rate_dic)
 
 rate_scooter_dic=sorted(avg_rate_dic.items(), key=lambda item:item[1],reverse=1)
-print(rate_scooter_dic)
+# print(rate_scooter_dic)
 
 areass, rates = list_to_2list(rate_scooter_dic)
 
-print(areass)
-print('+++++++++++++++++++++++++++++++++')
-print(rates)
+# print(areass)
+# print('+++++++++++++++++++++++++++++++++')
+# print(rates)
+print("機車發生率加權後前5名:",areass[0:5])
 #-----------------------------------------
 
 
