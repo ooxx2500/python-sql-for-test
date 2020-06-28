@@ -136,7 +136,36 @@ plt.title('Var graph')
 plt.ylabel('Y axis')
 plt.xlabel('X axis')
 plt.show()
+----------------------
+#繪製柱狀圖 圖上顯示數值
+from matplotlib import pyplot as plt
+x=[5,8,10]
+y=[12,16,6]
 
+
+
+for i in range(len(x)):
+    plt.text(x[i],y[i]+0.5,y[i],ha='center')
+#plt.text(X軸座標, Y軸座標, Y軸的數值 ,ha='center' 對齊)    
+
+plt.bar(x,y,align='center')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
+
+plt.title('Var graph')
+plt.ylabel('Y axis')
+plt.xlabel('X axis')
+plt.show()
+
+--------------------------------
+
+#pandas的表上有數字方法
+import  pandas as pd
+import matplotlib.pyplot as plt
+tw=pd.DataFrame(cities,columns=["結婚對數"],index=cities["縣市名稱"])
+tw.plot(title="2018年全台結婚對數",kind="bar") #kind:繪圖模式 預設為line
+plt.xlabel("City",size=25)
+plt.ylabel("結婚對數",size=25)
+for x,y in enumerate(marry_pair):
+    plt.text(x,y,'%s'%y,ha='center')
 
 -------------------
 #兩組住狀圖重疊變成分開排列 ***align='edge' width=一個正值一個負值

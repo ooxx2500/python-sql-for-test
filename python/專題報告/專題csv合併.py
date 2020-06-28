@@ -16,7 +16,7 @@ plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數�
 
 
 data=[]
-with open(r'C:\Users\ooxx2\Documents\python-sql-for-test\python\專題報告\107年交通A1.csv','r',encoding = 'utf-8') \
+with open(r'C:\Users\莫再提\Documents\python-sql-for-test\python\專題報告\108年交通A2.csv.csv','r',encoding = 'utf-8') \
     as csvfile:#用編碼utf8開啟
         plots = csv.reader(csvfile, delimiter = ',')#用reader方法讀取 plots是個串列
                               #用delimiter設定資料以逗號分隔字元，藉以取出每個資料
@@ -251,10 +251,10 @@ areas , area_counts=list_to_2list(list_area_sort)
 
 district_scooter , scooter_count=list_to_2list(list_scooter_sort)  
 print('加權前機車前五:',district_scooter[0:5])
-
+print(district_scooter)
 # print(list_area_sort)
-# print('---------------------')
-# print(list_scooter_sort)
+print('---------------------')
+print(list_scooter_sort)
 
    
     
@@ -305,7 +305,7 @@ plt.show()
 
 # rate_scooter_dic=sorted(rate_scooter_dic.items(), key=lambda item:item[1],reverse=1)
 # print(rate_scooter_dic)
-print('**********************')
+#print('**********************')
 areass, rates= dict_list(rate_scooter_dic)
 
 avg_rate_dic=dict()
@@ -315,9 +315,10 @@ total=sum(rates)
 for i in range(len(rates)):
     avg_rate_dic[areass[i]]=rates[i]/total
     
-print(avg_rate_dic)
+#print(avg_rate_dic)
 
 rate_scooter_dic=sorted(avg_rate_dic.items(), key=lambda item:item[1],reverse=1)
+print(avg_rate_dic.items())
 print(rate_scooter_dic)
 
 areass, rates = list_to_2list(rate_scooter_dic)
