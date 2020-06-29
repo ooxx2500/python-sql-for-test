@@ -10,10 +10,10 @@ data=[]
 import json
 from matplotlib import pyplot as plt
 import pandas as pd
-font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '12'}#設定字形樣式大小
+font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '10'}#設定字形樣式大小
 plt.rc('font', **font) #設定PY繪圖系統的字型項目
 plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
-with open(r'C:\Users\ooxx2\Documents\python-sql-for-test\python\專題報告\109A1.json',encoding = 'utf8')as file:
+with open(r'C:\Users\莫再提\Desktop\109交通A.json',encoding = 'utf8')as file:
     rf = json.load(file)
 
     for thems in rf:
@@ -83,9 +83,11 @@ for i in range(len(data)): #統計區域事故人數
             else:
                 scooter_dic[district] += 1
    
-# print('scooter_area_dic:',scooter_area_dic)
-# print()
-# print('scooter_dic:',scooter_dic)
+print('======= 機車字典一個縣市只計一次 =======\n',scooter_area_dic)
+print()
+print('========== 機車字典一個縣市計重複出現次數 =========\n',scooter_dic)
+print()
+print('========== 所有事故車輛按地區算 =========\n',cars_dic)
 #算出只含汽車的字典
                 
 only_cars=cars_dic.copy()#從總事故字典複製一份到only_cars
@@ -121,7 +123,7 @@ total_other_cars=total_not_cars-total_scooter
 # print(total_other_cars)
 
 
-# -------------------------用爬蟲抓取網頁機車登記資料表格
+# --------------用爬蟲抓取網頁機車登記資料表格--------------------
 import requests
 from bs4 import BeautifulSoup
 
@@ -130,9 +132,10 @@ from bs4 import BeautifulSoup
 #htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10701&ymt=10712&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=4pgqhmtm'
 
 #108年 
-#htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10801&ymt=10812&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=lxacdcYa'
+htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10801&ymt=10812&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=lxacdcYa'
+
 #109年1-5月 
-htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10901&ymt=10905&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=9eWWqani'
+#htm='https://stat.motc.gov.tw/mocdb/stmain.jsp?sys=220&ym=10901&ymt=10905&kind=21&type=9&funid=b330102&cycle=1&outmode=0&compmode=0&outkind=1&fld21=1&codspc0=0,6,8,1,11,1,14,15,&rdm=9eWWqani'
 
 
 html = requests.get(htm).text 
@@ -171,7 +174,10 @@ df=pd.DataFrame(all_cars_data,columns=area_list)
 
 
 df=df.drop(['總計','臺灣地區'],axis=1) #刪除兩欄沒用的資訊
+print('=========  爬蟲爬下來的表格  ===========')
 print(df)
+print('=========  新北市總數加總  ===========')
+print(df['新北市'].sum)
 total_area_dict=dict()   #加總個欄位的數量
 for area in df:
     t=df[area].sum()
@@ -207,22 +213,20 @@ def dict_list(x):#定義字典變2串列函式
         lst2.append(x[i])
     return lst1 , lst2
     
-
-    
+   
 #畫日期圖 (月份)   
 dates , date_counts = dict_list(date_dic)
     
     
 x=dates
 y=date_counts
+
 plt.bar(x,y,align='edge')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
 plt.title('各月份總事故-A1類',size=20)
 plt.ylabel('總事故')
 plt.xlabel(year)
 plt.show()    
-      
-#---------------------------------------------------------------------------
     
 #畫全車種地區圖
 
@@ -242,13 +246,10 @@ def list_to_2list(lst): #定義函式將column=2的串列轉為兩個串列
 areas , area_counts=list_to_2list(list_area_sort)
 
 district_scooter , scooter_count=list_to_2list(list_scooter_sort)  
-print('加權前機車前五:',district_scooter[0:5])
-
+print('加權前機車前五:\n',district_scooter[0:5])
+# print(district_scooter)
 # print(list_area_sort)
-# print('---------------------')
 # print(list_scooter_sort)
-
-   
     
 x=areas
 y=area_counts
@@ -264,16 +265,13 @@ x1=district_scooter
 y1=scooter_count
 plt.bar(x1,y1,align='edge',width=0.5,color='#FF5151',label='含機車事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
-plt.title('109年分區事故圖-A1類',size=20)
+plt.title('107年分區事故圖-A1類',size=20)
 plt.ylabel('事故總數')
 plt.xlabel('')
 plt.xticks(rotation=45 ) #旋轉 Xticks 標籤文字 
 plt.legend()
 plt.figure(figsize=(5,3)) 
 plt.show()     
-
-
-#--------------------------------------
 
 
 #劃出總事故比率圓餅圖(汽車 機車 及其他)
@@ -287,17 +285,14 @@ plt.pie(sizes , explode = explode , labels=labels , colors = colors,
         labeldistance = 1.1 , autopct='%2.1f%%', shadow=True ,
         startangle = 45 , pctdistance = 0.5,textprops = {"fontsize" : 15}) #startangle 逆時針旋轉為正
 plt.axis('equal')  
-plt.title("109年總事故比率-A1類",size=20)      
+plt.title("107年總事故比率-A1類",size=20)      
 plt.legend(loc = 'lower left',fontsize=14) 
 plt.show()   
-
-       
-#-----------------
 
 
 # rate_scooter_dic=sorted(rate_scooter_dic.items(), key=lambda item:item[1],reverse=1)
 # print(rate_scooter_dic)
-print('**********************')
+#print('**********************')
 areass, rates= dict_list(rate_scooter_dic)
 
 avg_rate_dic=dict()
@@ -307,39 +302,32 @@ total=sum(rates)
 for i in range(len(rates)):
     avg_rate_dic[areass[i]]=rates[i]/total
     
-print(avg_rate_dic)
+#print(avg_rate_dic)
 
 rate_scooter_dic=sorted(avg_rate_dic.items(), key=lambda item:item[1],reverse=1)
-print(rate_scooter_dic)
+# print(avg_rate_dic.items())
+# print(rate_scooter_dic)
 
 areass, rates = list_to_2list(rate_scooter_dic)
 
-print('機車加權後前五名:',areass[0:5])
-print('+++++++++++++++++++++++++++++++++')
-print(rates)
-#-----------------------------------------
-
+print('機車加權後前五名:\n',areass[0:5])
+print()
+print('各區機車事故數量/各縣市機車登記牌照數的比率\n',avg_rate_dic)
 
 #劃出各縣市機車造事比率
 x=areass
 y=rates
+
 plt.bar(x,y,align='center',width=0.7,color='#0080FF',label='全車種事故')#align='center' 直條對齊坐標刻度 align='edge' 對齊刻度邊緣
 
 
-plt.title('109年機車加權後分區事故圖-A1類',size=20)
+plt.title('107年機車加權後分區事故圖-A1類',size=20)
 plt.ylabel('出事比率')
 plt.xlabel('')
+
+
+
+
+
 plt.xticks(rotation=45 ) #旋轉 Xticks 標籤文字 
-plt.show()             
-
-
-
-
-
-
-
-
-
-
-
-
+plt.show() 
