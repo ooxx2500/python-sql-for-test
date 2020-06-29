@@ -1047,6 +1047,9 @@ tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])   
 #ax:第一個軸(含X Y軸)
 #subplot:在一個圖表中繪製不同軸的數據
 fig, ax = plt.subplots()
+#fig = plt.figure()
+#ax = plt.subplot()
+
 fig.suptitle('city statistics')#設定子繪圖的標題
 ax.set_ylabel('population')#設定y軸文字
 ax.set_xlabel('city')#設定x軸文字
@@ -1065,7 +1068,36 @@ ax.legend(loc=1)#loc指定圖例的位置 右上
 ax2.legend(loc=2) #左上
 plt.show()
 
+------------------------------
+#繪製子圖 4張不同的圖形
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
+fig, axes = plt.subplots(2, 2)
+
+data = pd.Series(np.random.rand(16), index=list('abcdefghijklmnop'))
+
+data.plot.bar(ax=axes[0,0], color='b', alpha = 0.5)#畫值條圖
+data.plot.barh(ax=axes[0,1], color='k', alpha=0.5)#畫橫條圖
+
+cities = {'population':[10000000,8500000,8000000,15000000,6000000,8000000],
+          'area':[400,500,850,300,200,320],
+          'town':['new york','chicago','bangkok','tokyo','singapore','hongkong']}
+
+tw = pd.DataFrame(cities, columns=['population','area'],index=cities['town'])  
+tw.plot(ax=axes[1,0]) #畫雙值線圖
+
+fruits = ['apple','bananas','grapes','pears','oranges']
+s = pd.Series([2300,5000,1200,2500,2900], index=fruits, name='Fruits Shop')
+
+explode=[0.4,0,0,0.2,0]
+s.plot.pie(explode=explode, autopct='%1.2f%%')
+  
+tw.plot.pie(ax=axes[1,1],color='r',autopct='%1.2f%%')#畫圓餅圖
+
+
+plt.show()
 -------------------------------------
 #畫圓餅圖:
 import pandas as pd

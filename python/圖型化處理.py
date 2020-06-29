@@ -190,7 +190,7 @@ print(y)
 
 plt.title('Matplotlib demo')
 plt.xlabel('x axis caption')
-plt.ylabel('y axis caption')
+plt.ylabel('y axis',rotation=0,ha='right')#rota
 plt.plot(x,y,lw=2,color = 'b',ls='-.')
 plt.show()
 
@@ -283,8 +283,87 @@ plt.xlabel('Leprechauns')
 plt.ylabel('Gold')
 plt.legend(loc=2) #指定圖例的位置
 plt.show()
+--------------------------------
 
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+#生成隨機的data 30個
+x = np.random.rand(30)
+y = np.random.rand(30)
+
+#製作figure
+fig = plt.figure()
+
+#設定axes
+ax = fig.add_subplot(1, 1, 1)
+
+#設定散佈圖的顏色，大小等等
+ax.scatter(x, y, s=250, alpha=0.4, linewidths=2.5, c='#AAAFFF', edgecolors='blue')
+
+plt.show()
+-----------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+
+#生成隨機的data 30個
+x1 = np.random.rand(30)
+y1 = np.random.rand(30)
+x2 = np.random.rand(30)
+y2 = np.random.rand(30)
+
+
+#製作figure
+fig = plt.figure()
+
+#設定axes
+ax = fig.add_subplot(1, 1, 1)
+
+#設定x1, y1散佈圖的顏色，大小等等(藍色)
+ax.scatter(x1, y1, s=250, alpha=0.4, linewidths=2.5, c='#AAAFFF', edgecolors='blue')
+
+#設定x2, y2散佈圖的顏色，大小等等(紅色)
+ax.scatter(x2, y2, s=250, alpha=0.4, linewidths=2.5, c='#FFFAAA', edgecolors='red')
+
+plt.show()
+--------------------------------
+import matplotlib.pyplot as plt
+import numpy as np
+
+#生成隨機的data 30個
+x1 = np.random.rand(30)
+y1 = np.random.rand(30)
+x2 = np.random.rand(30)
+y2 = np.random.rand(30)
+x3 = np.random.rand(30)
+y3 = np.random.rand(30)
+#製作figure
+fig = plt.figure()#畫第1個子圖
+#設定axes
+ax = fig.add_subplot(1, 2, 1) #畫子圖(row,column,子圖位置)
+#五邊形
+ax.scatter(x1, y1, s=25, alpha=0.4, linewidths=2.5, c='#AAAFFF', edgecolors='blue', marker='p')
+#方形
+ax.scatter(x2, y2, s=25, alpha=0.4, linewidths=2.5, c='#FFFAAA', edgecolors='red', marker='s')
+#星形
+ax.scatter(x3, y3, s=25, alpha=0.4, linewidths=2.5, c='b', edgecolors='gray', marker='*')
+
+ax = fig.add_subplot(1, 2, 2)#畫第二個子圖
+x1 = np.random.rand(30)
+y1 = np.random.rand(30)
+x2 = np.random.rand(30)
+y2 = np.random.rand(30)
+x3 = np.random.rand(30)
+y3 = np.random.rand(30)
+#五邊形
+ax.scatter(x1, y1, s=[np.random.randint(1,250)for x in x1], alpha=0.4, linewidths=2.5, c='#AAAFFF', edgecolors='blue', marker='p')
+#方形
+ax.scatter(x2, y2, s=[np.random.randint(1,250)for x in x1], linewidths=2.5, c='#FFFAAA', edgecolors='red', marker='s')
+#星形
+ax.scatter(x3, y3, s=[np.random.randint(1,250)for x in x1], linewidths=2.5, c='b', edgecolors='gray', marker='*')
+
+plt.show()
 ---------------------------------
 #散布圖s數量都相等150
 import matplotlib.pyplot as plt
