@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun 29 16:45:13 2020
+Created on Tue Jun 30 13:14:23 2020
 
 @author: ASUS
 """
@@ -29,31 +29,12 @@ print(site_id)
 
 a=rf.loc[rf["發生地點"].str.contains("新北市")]
 print(a.index)
-area=rf["發生地點"].str[0:3]
+dfCarea = pd.DataFrame()
+dfCarea['縣市']=(rf["發生地點"].str[0:3]).apply(lambda x:x[0:3])
 
 
-print(area)#分解第點成字串XX市
-rf=pd.concat([rf,area], axis=1)#將area 橫向合併原本的rf
-rf.columns = ['A','B','C','D','E']
-print(rf)
+# # print(area)#分解第點成字串XX市
+# rf=pd.concat(rf,dfCarea)#將area 橫向合併原本的rf
+# rf.columns = ['　','B','C','D','E']
+# A1print(rf)
 #rf.rename(columns={'發生地點':'縣市別'}, inplace = True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
