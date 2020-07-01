@@ -12,7 +12,7 @@ import pandas as pd
 font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '12'}#設定字形樣式大小
 plt.rc('font', **font) #設定PY繪圖系統的字型項目
 plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
-with open(r'C:\Users\ASUS\Desktop\109A1.json',encoding = 'utf8')as file:
+with open(r'C:\Users\莫再提\Desktop\109A1.json',encoding = 'utf8')as file:
     rf_1 = json.load(file)
     
     
