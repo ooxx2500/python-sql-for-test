@@ -257,7 +257,25 @@ plt.pie(sizes , explode = explode , labels=labels , colors = colors,
 plt.axis('equal')         #pctdistance 數字%梨園心的距離 textprops 文字大小
 plt.legend(loc = 'lower right',fontsize=10) #只定圖例出現在右下位置 fontsize改圖例字體大小
 plt.show()   #loc = 可指定圖例的位置 也能用數字1 2 3 4 5 6
+------------------------------
+#調整子圖位置
+import matplotlib.pyplot as plt
 
+#以下三行是PY專用顯示中文的，沒加會沒辦法顯示中文,直接複製貼上
+font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '16'}#設定字形樣式大小
+plt.rc('font', **font) #設定PY繪圖系統的字型項目
+plt.rc('axes',unicode_minus=False) #座標軸如果有負號再加上此參數就可解決
+
+labels = ['東部','南部','北部','中部']
+sizes=[5,10,20,15]
+colors = ['red','green','blue','yellow']
+explode = (0.05,0,0,0) #0表示未分離 
+plt.pie(sizes , explode = explode , labels=labels , colors = colors,
+        labeldistance = 1.1 , autopct='%3.1f%%', shadow=True ,
+        startangle = 90 , pctdistance = 0.7,textprops = {"fontsize" : 12}) #startangle 逆時針旋轉為正
+plt.axis('equal')         #pctdistance 數字%梨園心的距離 textprops 文字大小
+plt.legend(bbox_to_anchor=(0.9,0.3),fontsize=10) #只定圖例出現在右下位置 fontsize改圖例字體大小
+plt.show()   #調整子圖位置 bbox_to_anchor=(0.9,0.3)
 
 ----------------------------
 '''
