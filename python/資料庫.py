@@ -141,8 +141,132 @@ for row in cursor:
 print("Operation done successfully")
 conn.close()
 
+-----------------------------------------------------
+#連結MYSQL
+
+import pymysql
+
+#建立資料連結 ('127.0.0.1'或'Localhost' , '帳號' , '密碼' ,'資料庫名' '編碼 UTF8')
+db = pymysql.connect( "Localhost"  ,'root' ,'AQpseHAsZTk07pB4' ,'firstdb' ,charset='utf8')
+test = db.cursor()  #建立cursor物件 
+test.execute("select * from table_1")
+data = test.fetchall() #取出所有紀錄
+#取出查詢結果每一筆
+for row in data:
+    print(row[0],row[1])
+db.close()
+-----------------------------------------------
+#建立資料給MYSQL
+import pymysql
+student ="9,mon,忠孝東路50號,0920555888"
+a= student.split(",")
+print(a)
+#建立資料連結 ('127.0.0.1'或'Localhost' , '帳號' , '密碼' ,'資料庫名' '編碼 UTF8')
+db = pymysql.connect( "Localhost"  ,'root' ,'AQpseHAsZTk07pB4' ,'firstdb' ,charset='utf8')
+test = db.cursor()  #建立cursor物件 
+sql = """INSERT INTO order2 (c_id,name ,address, phone) 
+VALUES ( '{0}' , '{1}' ,'{2}' ,'{3}')"""
+sql = sql.format(a[0],a[1],a[2],a[3])
+
+#sql = """ INSERT INTO `order2` ( `name`, `address`, `phone`) VALUES ( '5555dgsdg', 'sdgsdg', 'sdggsdgs');"""
+print(sql)
+
+test.execute(sql)
+db.commit()
+db.close()
 
 
+data = test.fetchall()
+
+print(data)
+
+
+
+
+import pymysql
+#建立資料連結 ('127.0.0.1'或'Localhost' , '帳號' , '密碼' ,'資料庫名' '編碼 UTF8')
+db = pymysql.connect( "Localhost"  ,'root' ,'1111' ,'firstdb' ,charset='utf8')
+test = db.cursor()  #建立cursor物件 
+#sql = """INSERT INTO 'order2' ('c_id','name' ,'address', 'phone') VALUES ( '{0}' , '{1}' ,'{2}' ,'{3}')"""
+#sql = sql.format(a[0],a[1],a[2],a[3])
+
+sql = """ select sum(c_id) from order2"""
+
+
+a=test.execute(sql)
+data = test.fetchall()
+
+print(data)
+db.commit()
+db.close()
+
+
+
+
+----------------------------------------------------
+#執行單機版SQL語法
+
+import sqlite3
+
+sql = "INSERT INTO students(id , name , phone , email) VALUES (3 , 'god','0955222222','jsa@gmail.com') "
+
+
+print(sql)
+conn = sqlite3.connect("12345.db")
+cursor = conn.execute (sql)
+print(cursor.rowcount)
+conn.commit()  
+conn.close()
+
+
+
+
+#執行PHP SQL語法
+
+import pymysql
+db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
+test = db.cursor()  
+
+sql = """select name from students group by name"""
+
+
+a=test.execute(sql)
+db.commit()
+db.close()
+
+data = test.fetchall()
+for i in data:
+    print(i)
+
+
+#PHP自動輸入資料區
+
+txt = """mona,0920222222,oosdk@gmail.com,188
+judy,0983333333,dasf@yahoo.com.tw,799
+allan,0979555666,sadfas@yahoo.com,555
+sam,0983346565,dasfafafsf@gmail.com,12
+tami,098555555,dasdsa@gmail.com,34
+alal ,09865656,asdsad@gmail.com,79
+43534,09202222,fasfasdfas@gmail.com,588""" 
+s = txt.split("\n")
+
+import pymysql
+
+db = pymysql.connect( "Localhost"  ,'root' ,'EcAVI31yZ1j00Q3H' ,'firstdb' ,charset='utf8')
+test = db.cursor() 
+
+
+for i in s:     
+    a=i.split(",")
+    print(a)
+    
+    sql = "INSERT INTO students ( name , phone, email, score) VALUES ( '{0}' , '{1}' ,'{2}','{3}')"
+    sql = sql.format(a[0],a[1],a[2],a[3])
+    print(sql)
+    result = test.execute(sql)
+    data = test.fetchall()
+    db.commit()
+db.close()
 
 
 

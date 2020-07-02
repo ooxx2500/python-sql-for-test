@@ -4,7 +4,6 @@ Created on Tue Jun 30 17:15:50 2020
 
 @author: mona
 """
-<<<<<<< HEAD
 # import pymysql
 # db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
 # test = db.cursor()  
@@ -86,5 +85,3 @@ print(2)
 
 
 
-=======
->>>>>>> 5fbd57b335e3197d1f4235f98bdb1e5aba6a8b57
