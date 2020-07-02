@@ -236,6 +236,7 @@ size = [33,52,12,17,62,48]
 print(labels)
 plt.pie(size , labels = labels , autopct='%1.1f%%') #autopct='%1.1f%%' 數值百分比
 plt.axis('equal') #x軸比例相等  autopct格式: %格式%% 後面兩個%沒意義但是要加
+plt.figure(num=None,figsize=(8,8),dpi=480)
 plt.show()
 
 -------------------------------------
