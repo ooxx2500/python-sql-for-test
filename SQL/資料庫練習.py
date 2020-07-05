@@ -27,6 +27,7 @@ Created on Tue Jun 30 17:15:50 2020
 
 
 # ----------------------------------------------------------------
+
 #查詢姓名
 def serch_name():
     search_name=input('搜尋姓名:')
@@ -80,9 +81,9 @@ def add_storage():
         check=df['id_']==in_id
     except Exception as err:
         print(err)
-    print("======= 資料如下 =======")
+    print("============ 資料如下 =============")
     print(df[check])
-    print('===========================')
+    print('=================================')
     quantity=df[check]['qualianty'].values[0]
     print("數量還剩:",quantity) 
     storage=eval(input("存入數量:"))
@@ -101,48 +102,64 @@ def add_storage():
         print(df[check])
         print('=================================')
         db.close()
-        
-        
+ 
+#查詢資料區間       
+def search_data():
+    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
+    test = db.cursor() 
+    df=pd.read_sql("""SELECT * FROM momom""",con=db)
+    first_choose=eval(input("請選擇查詢區間 1:自定區間 2:全查"))
+    if first_choose==1:
+        start=eval(input("請輸入查詢ID起始點:"))
+        how=eval(input("請輸入查詢幾筆資料:"))
+        mask=df['id_'].values>=start
+        print(df[mask].head(how))
+        db.close()
+
+    else:    
+        print(df)
+        db.close()   
+
+
+#登入系統
+def login():
+
+    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
+    test = db.cursor() 
+    df=pd.read_sql("""SELECT * FROM users""",con=db)
+    db.close()
+    account=input("請輸入帳號:")
+    if account in df['accont'].values:
+        password=input("請輸入密碼:")
+        mask=df['accont'].values==account
+        if df[mask]['password'].values ==password:
+            print("密碼正確成功登入")
+        else:
+            print("密碼錯誤")
+    
+    else:
+        print("此帳號不存在")
+
+
+
+
+
+     
 import pymysql
 import pandas as pd
 db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
 test = db.cursor() 
-#df=pd.read_sql("""SELECT id_, name FROM momom""",con=db) #用read_sql(con=db)可以直接讀取資料庫表格
 df=pd.read_sql("""SELECT * FROM momom""",con=db)
 db.close()
 
-print(df['id_']<10)
-
-
-# first_choose=eval(input("請選擇查詢區間 1:自定區間 2:全查"))
-# if first_choose==1:
-#     start=eval(input("請輸入查詢ID起始點:"))
-#     end=eval(input("請輸入查詢ID終止點:"))
-#     print(df[start:end])
-
-# else:    
-#     print(df)
-    
-    
-# print("顯示row column數",df.shape) #顯示row column數
-# print("顯示欄位資料類型",df.dtypes) #顯示欄位資料類型
 
 
 
-#查詢ID區間
+login()
 
+search_data()
 
-
-
-
-
-
-
-
-
-
-
-
+sellsomething()
 
 
 
