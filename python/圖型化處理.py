@@ -53,6 +53,17 @@ ax.tick_params(axis='x', labelrotation= ) 旋轉 Xticks 標籤文字
 
 
 '''
+#savefig
+abc='ㄤㄤ'
+cde='你好'
+ass=f"monayo {abc}dasd {cde}"
+print(ass)
+plt.savefig(f"C:/Users/user/Desktop/Python_Test/Python_main/output/png/{df1_name04}.png", #檔名
+            bbox_inches="tight",transparent=True,dpi=300) #大圖
+plt.savefig(f"C:/Users/user/Desktop/Python_Test/Python_main/output/{df1_name04}.jpg", #檔名
+            bbox_inches="tight",transparent=False,dpi=300) #大圖
+
+
 #用Matplotlib繪圖
 import matplotlib.pyplot as plt
 

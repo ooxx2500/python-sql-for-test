@@ -47,6 +47,23 @@ repr()函式 印出轉義/逸脫字元，即字串資料包含逸脫字元(\n \\
 
 
 '''
+from os import walk
+from os.path import join
+
+dfs = []
+# 指定要列出所有檔案的目錄
+mypath = r"C:\Users\ASUS\Desktop\test"
+
+# 遞迴列出所有檔案的絕對路徑
+for root, dirs, files in walk(mypath):
+    print("路徑：", root)
+    print("  目錄：", dirs)
+    print("  檔案：", files)
+
+for i in files:
+    path="C:\\Users\\ASUS\\Desktop\\test\\"+i
+    print(path)
+
 
 ----------------------------------------------
 #寫入檔案，檔案不存在則建立
