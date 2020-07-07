@@ -8,7 +8,7 @@ import json
 
 import pandas as pd
 
-with open(r'C:\Users\莫再提\Desktop\108people.json',encoding = 'utf8')as file:
+with open( r'C:\Users\莫再提\Desktop\63.json',encoding = 'utf8')as file:
     rf_1 = json.load(file)
        
 rf=pd.DataFrame(rf_1)
@@ -23,9 +23,8 @@ print(aaa)
 df.drop(aaa)
      
 df=df.drop(0)
-df.drop(df.loc[a:b].index, inplace=True)
-print(df)
 
+print(df)
 
 
 
