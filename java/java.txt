@@ -1,0 +1,104 @@
+1.for : arg
+2.15000 15000 30000
+3.<= && <
+4.do }while(()) 
+5.a a(age>=20) b
+6.for :
+7.if(age>65) a else if(buyMembership) a(else)
+8.public static protected
+9.B
+10.extend super this
+11.b a c
+12.Override (toString是內建方法)
+13.c a
+14.b c b
+15.b a b b
+16.X(main) O O X
+17.c a b(超值)
+18.o x o x
+19.b a c
+20.a b a a
+21.d
+22.-128 0.33333333333 0.3333334
+23.70
+24.a b d c  
+25.b c
+26.27 0.175 33 4.0
+27.a b b b b
+28.b
+29.1 2
+30.o o o o
+31.double float boo byte int
+32.- number ^ 2    -number * number
+33.a a a
+34.'c' 234 false 234.55f
+35.a a c
+36.a b b b
+37.o o x x(10)
+38.o o x
+39.a b a 
+40.b b b b b
+41.x x o
+42.10 5 10 5
+43.b c
+44.b
+45.x o x o
+46.b b c
+47.50 5 5 100
+48.c a b c
+49.a b(包含0) d
+50.c c b
+51.> && >= || >= && >
+52.b a b a
+53.x o x (switch沒有比較式 範圍)
+54.d
+55.substring toUpperCase substring toLowerCase
+56.shot bool char float
+57.02 21
+58.b
+59.b a b c
+60.60 16
+61.c a b c
+62.{{  },{  }};
+63.b a c
+64.d (21E)
+65.c a b c
+66.19 41 1 2
+67.b
+68.int[] numbers= new int[] {n1,n2,n3}
+69.x o x o
+70.c a b
+71.x x(show()除非是static) o
+72.d a b
+73.a
+74.public static final
+75.x o o 
+76.b c a
+77.1 100 25(int拿掉才是1)
+78.3.142 3 03.141593
+79.b b b a a a
+80.a
+81.b a b d
+82.2 4 6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
