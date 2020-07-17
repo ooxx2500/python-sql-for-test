@@ -352,6 +352,365 @@ cv.imshow('image2',result2)
 cv.waitKey()
 
 
+'''
+影像加權和:
+    計算影像像素值和並加入加權值計算
+    使用函數:addWeighted
+    addWeighted(src1,a,src2,b,c) 
+    src1:影像1 src2影像2 a:影像1加權 b:影像2加權 c:亮度調節
+    公式:src1*a+src2*b+c    
+兩影像大小及類型必須相同
+    ROI:Region Of Interest感興趣區域  
+    於程式中自行設定所需要處理的區域範圍
+
+
+'''
+#影像加權練習
+import cv2 as cv
+import numpy as np
+img1=np.ones((3,4,3),dtype=np.uint8)*100
+img2=np.ones((3,4,3),dtype=np.uint8)*10
+a=3
+img3=cv.addWeighted(img1,0.6,img2,5,a)
+print(img3)
+
+
+
+-----------------------------------
+#和成兩張圖片(大小類型必須一致)
+import cv2 as cv
+
+img1=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg')
+img2=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\landscape512.jpg')
+result = cv.addWeighted(img1, 0.6, img2, 0.4,0)
+cv.imshow('image1',img1)
+cv.imshow('image2',img2)
+cv.imshow('image3',result)
+cv.waitKey()
+
+-------------------------------
+#盒成兩張圖片(區域和成)
+import cv2 as cv
+
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\lena_01.jpg',1)
+US1=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\US1_600.jpg',1)
+cv.imshow('image',img)
+cv.imshow('banknote',US1)
+img_face= img[80:230 , 250:370]#影像人臉ROI
+US1_face= US1[80:230 , 240:360]#影像鈔票ROI
+add= cv.addWeighted(img_face, 0.6, US1_face, 0.4, 0)#兩個ROI加全運算給add變數
+US1[80:230, 240:360]=add #將加權後的影像加入鈔票的ROI區域
+cv.imshow('result',US1)
+cv.waitKey()
+
+'''
+逐位元邏輯運算
+    bitwise_and:且
+    bitwise_or:或
+    bitwise_xor:互斥   
+    bitwise_not:反向
+and運算:
+    兩個運算元(邏輯值)都為真，其結果為真
+    
+函數:bitwise_and
+    bitwise_and(src1,src2)  兩個影像
+
+任何數值n與數值0作and運算，結果都是0
+    11011011
+and 00000000
+---------------
+    00000000
+
+任何數值n與數值255作and運算，結果為元素值n本身
+    11011011
+and 11111111
+---------------
+    11011011    
+
+以上敘述定理可建立掩膜影像只有兩個值0,255
+
+
+
+
+
+
+
+'''
+#用numpy建立遠模影像做遠模運算
+import cv2 as cv
+import numpy as np
+img1 =np.random.randint(0,255,(5,5),dtype=np.uint8)
+img2 =np.zeros((5,5),dtype=np.uint8)
+img2[0:3,0:3] = 255
+img2[4,4] = 255      #img2就是遠模影像0 255
+a = cv.bitwise_and(img1, img2) 
+print('img1 = \n',img1)
+print('img2 = \n',img2)
+print('a = \n',a)
+
+------------------------
+#遠模運算(灰階)
+import cv2 as cv
+import numpy as np
+img1 =cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',0)
+img2 =np.zeros(img1.shape,dtype=np.uint8)
+img2[100:400,200:400] = 255   #100:400是Y軸  200:400是X軸
+img2[100:500,100:200] = 255
+print(img2) 
+a = cv.bitwise_and(img1, img2) #and運算 255區域匯式原來的影像
+cv.imshow('img1',img1)
+cv.imshow('img2',img2)
+cv.imshow('a',a)
+cv.waitKey()
+
+-------------------------
+#遠模運算(彩色)
+import cv2 as cv
+import numpy as np                                    #和上面差別是0改成1
+img1 =cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',1)
+img2 =np.zeros(img1.shape,dtype=np.uint8)
+img2[100:400,200:400] = 255   #100:400是Y軸  200:400是X軸
+img2[100:500,100:200] = 255
+a = cv.bitwise_and(img1, img2) #and運算 255區域匯式原來的影像
+print("img1.shape =",img1.shape)
+print("img2.shape =",img2.shape)
+cv.imshow('img1',img1)
+cv.imshow('img2',img2)
+cv.imshow('a',a)
+cv.waitKey()
+--------------------
+'''
+xor運算:兩個運算單元都不相同結果為真
+
+函數:bitwise_xor
+    bitwise_xor(src1,src2)
+    
+    11000110(198)
+xor 11011011(219)    
+-----------------
+    00011101(29)    
+
+
+or運算元:
+    兩個運算元(邏輯值)有一個為真，結果為真
+
+函數:bitwise_or
+    bitwise_or(src1,src2)
+    
+not運算元:將元素反向
+
+函數:bitwise_not
+    bitwise_not(src)
+    
+
+add函數:add(src1,src2,mask)      mask:掩膜得特定範圍
+
+'''
+
+import cv2 as cv
+import numpy as np                              
+img1 =np.ones((4,4),dtype=np.uint8)*3
+img2 =np.ones((4,4),dtype=np.uint8)*5
+mask=np.zeros((4,4),dtype=np.uint8)#掩膜影像都是0
+mask[2:4,2:4]=1 #將演模影像的特定範圍數值設為1
+img3 =np.ones((4,4),dtype=np.uint8)*66
+
+print('img1 = \n',img1)
+print('img2 = \n',img2)
+print('mask = \n',mask)
+print('初值 img3 = \n',img3)
+img3= cv.add(img1,img2,mask= mask)#將兩影像相加在用mask遮罩(and運算)
+print('求和後 img3 = \n',img3)
+
+-------------------------------
+#用and 掩膜影像 遮罩圖片區域
+import cv2 as cv
+import numpy as np
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',1) 
+w, h, c = img.shape
+mask=np.zeros((w,h),dtype = np.uint8)
+mask[100:400,200:400]=255
+mask[100:500,100:200]=255                             
+c=cv.bitwise_and(img,img,mask=mask)
+print('img.shap=',img.shape)
+print('mask.shap=',mask.shape)
+cv.imshow('img',img)
+cv.imshow('mask',mask)
+cv.imshow('c',c)
+cv.waitKey()
+
+
+------------------------------------------
+'''
+位元平面分解
+
+將灰階影像中同一個位元上的二進位像素值進行組合，可得到一個二進位影像，該影像稱為灰階
+影像的位元平面，其組和過程稱為位元平面分解。
+
+灰階影像中每一象素使用8位元，二進位值表示值的範圍為0-255表示為:
+    a7*2**7 a6*2**6 a5*2**5 a4*2**4 a3*2**3 a2*2**2 a1*2**1 a0*2**0  a0-a7為0~1
+    
+    a7對影像影響最大，加權最高，其位元平面與元影像相關性最高，和原影像類似 
+    a0對影像影響最小，加權最低，其位元平面與元影像相關性最低，該位元平面最雜亂
+    
+執行步驟:
+    影像前置處理:
+    建立分析矩陣:
+    分析影像位元平面:
+    設定值處理(逐位元邏輯運算):
+    顯示影像:
+
+
+'''
+import cv2 as cv
+import numpy as np
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',0)
+cv.imshow('img',img) 
+r, c = img.shape#讀取原本影像的大小寬高
+x= np.zeros((r,c,8),dtype=np.uint8) #用寬高設定一個分析矩陣 8個通道
+
+for i in range(8):
+    x[:,:,i]=2**i#將分析矩陣設為2**i次方
+r= np.zeros((r,c,8),dtype=np.uint8)
+
+for i in range(8):
+    r[:,:,i] = cv.bitwise_and(img, x[:,:,i])
+    mask = r[:,:,i]>0
+    r[mask]=255
+    cv.imshow(str(i),r[:,:,i])
+
+cv.waitKey()
+
+'''
+影像加密及解密
+原始影像與金鑰影像:進行互斥運算，產生加密影像(encryption)
+
+加密影像與金鑰影像:進行互斥運算，產生解密影像(decryption)
+
+a:原始資料(明文) b:金鑰  c:加密(xor(a,b)) 
+xor(a,b)=c, xor(c,b)=a
+
+位元運算可實踐像素點加密，通常預處理的象素點為灰階值，如某項素點值為216(明文)，
+以178(此值由加密者自行決定)做為加密金鑰，將此二數值進行互斥運算，加密後為106
+bitwise_xor(216,178)=106 加密後
+bitwise_xor(106,178)=216 解密後
+
+    11011000(216)明文           01101010(106)
+xor 10110010(178)金鑰       xor 10110010(178) 
+-------------------        -------------------
+    01101010(106)加密後         11011000(216)解密後 
+
+'''
+#影像加密及解密
+import cv2 as cv
+import numpy as np
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',0)
+cv.imshow('img',img) 
+r, c = img.shape#讀取原本影像的大小寬高
+key = np.random.randint(0,256,size=[r,c],dtype=np.uint8)#用np產生隨機key
+print(key)
+encryption =cv.bitwise_xor(img, key) #將影像加密
+decryption =cv.bitwise_xor(encryption, key) #將影像解密
+cv.imshow('image',img)
+cv.imshow('key',key)
+cv.imshow('encryption',encryption)
+cv.imshow('decryption',decryption)
+cv.waitKey()
+
+'''
+浮水印(資訊影藏)
+最低有效位(Least Significant Bit;LSB):二進位數字中的第D位(最低位)
+
+將需要影藏的二值影像崁入載體影像的最低有效位，即將載體影像的LSB取代為需要影藏的二值影像
+，以達到二進位影像影藏的目的。
+
+因二值影像處於載體影像的LSB上，對載體影像影響非常明顯固有較高的影敝性
+
+崁入過成
+    1.將影像二值化(處理為灰階)灰階二值影像中像素值只有0,255，表示為黑色白色，
+    2.將255轉為1可得到二進位的灰階影像，只用一個位元表達象素值
+    
+
+
+'''
+#浮水印加密
+import cv2 as cv
+import numpy as np
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',0)
+watermark =cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\watermark.jpg',0)
+w =watermark[:,:]>0 #將灰階影像的值為255設定為1以方便嵌入
+watermark[w]=1
+r,c =img.shape
+
+t254=np.ones((r,c),dtype=np.uint8)*254 #產生元素值為254的陣列
+imgh7=cv.bitwise_and(img, t254)#取得影像的高7位
+e=cv.bitwise_or(imgh7, watermark)#用or運算將watermark影像遷入裡面
+
+t1=np.ones((r,c),dtype=np.uint8)
+wm=cv.bitwise_and(e, t1)
+print(wm)
+w=wm[:,:]>0
+wm[w] =255
+
+cv.imshow('img',img)
+cv.imshow('watermark',watermark*255)
+cv.imshow('e',e)
+cv.imshow('wm',wm)
+cv.waitKey()
+
+
+
+------------------------------------------
+
+import cv2 as cv
+import numpy as np
+img=cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\Lena512.jpg',0)
+r,c =img.shape
+mask=np.zeros((r,c),dtype=np.uint8)
+mask[100:400,200:400]=1
+#取得key
+key = np.random.randint(0,256,size=[r,c],dtype=np.uint8)
+#使用打碼臉部影像，使用金鑰對原始影像加密
+imgxorkey =cv.bitwise_xor(img, key) 
+#取得加密臉部資訊
+encryptFace=cv.bitwise_and(imgxorkey, mask*255)
+#取得加密影像將臉部值設定為0
+noface1=cv.bitwise_and(img, (1-mask)*255)
+#取得打碼影像
+maskface = encryptFace + noface1
+#將打碼的臉解碼
+#將臉部打碼的影像與金鑰進行互斥運算，取得臉部原始資訊
+extractOriginal = cv.bitwise_xor(maskface, key)
+#將解碼的臉部資訊分析extractOriginal
+extractFace = cv.bitwise_and(extractOriginal, mask*255)
+#從打碼的臉部影像分析沒有臉部的影像
+noface2 = cv.bitwise_and(maskface, (1-mask)*255)
+#取得解碼的影像
+extracting =noface2+extractFace   
+
+
+
+cv.imshow('img',img)
+cv.imshow('mask',mask*255)
+cv.imshow('1-mask',(1-mask)*255)
+cv.imshow('key',key)
+cv.imshow('imgxorkey',imgxorkey)
+cv.imshow('encryptFace',encryptFace)
+cv.imshow('noface1',noface1)
+cv.imshow('maskface',maskface)
+cv.imshow('extractOriginal',extractOriginal)
+cv.imshow('extractFace',extractFace)
+cv.imshow('noface2',noface2)
+cv.imshow('extracting',extracting)
+cv.waitKey()
+
+
+
+
+
+
+
+
 
 
 
