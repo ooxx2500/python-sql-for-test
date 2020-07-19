@@ -44,6 +44,7 @@ def sellsomething():
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     df=pd.read_sql("""SELECT * FROM momom""",con=db)
     test = db.cursor()
+    db.close()
     in_id=eval(input("請輸入ID:"))
     try:
         check=df['id_']==in_id
@@ -55,12 +56,17 @@ def sellsomething():
     quantity=df[check]['qualianty'].values[0]
     print("數量還剩:",quantity) 
     sell=eval(input("賣出數量:"))
+    df=pd.read_sql("""SELECT * FROM momom""",con=db)
+    test = db.cursor()
+    quantity=df[check]['qualianty'].values[0]
     if sell >quantity:
         print('交易錯誤，庫存不足。')
         db.close()
     else:
+        df=pd.read_sql("""SELECT * FROM momom""",con=db)
+        
         remain_number=quantity-sell #剩餘數量       
-        SQL_update="UPDATE `momom` SET `qualianty` = '{0}' WHERE `momom`.`id_` = {1} and `qualianty`>{2}; "
+        SQL_update="UPDATE `momom` SET `qualianty` = '{0}' WHERE `momom`.`id_` = {1} and `qualianty`>={2}; "
         SQL_update=SQL_update.format(remain_number, in_id, sell )
         test.execute(SQL_update)#資料庫進行扣除
         db.commit()
@@ -155,9 +161,9 @@ db.close()
 
 
 
-login()
+#login()
 
-search_data()
+#search_data()
 
 sellsomething()
 
