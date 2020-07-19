@@ -21,8 +21,11 @@ def login():
         mask=df['accont'].values==account
         if df[mask]['password'].values ==password:
             lb5["text"]="密碼正確成功登入"
-            time.sleep(3)
+            time.sleep(2)
             window.destroy()
+            
+            call(["python","主畫面.py"]) #***********執行另一個PY檔********
+            
         else:
             lb5["text"]="密碼錯誤"
     
@@ -30,26 +33,18 @@ def login():
         lb5["text"]="此帳號不存在，請重新輸入。"
 
 
-
-
-
-
-
-
-
-
-
-
-
 from tkinter import *
 import pymysql
 import time
 import pandas as pd
+from subprocess import call  #***********執行另一個PY檔*******
+import matplotlib.pyplot as plt
+
 
 
 window =Tk()
 window.title("庫存系統")
-window.geometry("600x400")
+window.geometry("300x200")
 
 x =StringVar()
 
@@ -64,9 +59,8 @@ et2.grid(row=2,column=1)
 bt1 = Button(window,text="重新輸入",command=cleanACPW).grid(row=3,column=0)
 bt2 = Button(window,text="登入",command=login).grid(row=3,column=1)
 lb5 = Label(window)
-lb5.grid(row=4,column=1)
+lb5.grid(row=4,column=1,columnspan=3)
 lb3 = Label(window, textvariable = x).grid(row=5,column=0)
-
 
 
 window.mainloop()
