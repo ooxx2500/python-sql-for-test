@@ -38,6 +38,9 @@ def showfigue():
     db.close()
     x=df['name']
     y=df['qualianty']
+    plt.title('庫存報表')#圖表的標題
+    plt.xlabel('產品名稱')#x座標標題
+    plt.ylabel('庫存數量')#y座標標題
     plt.bar(x,y,label='a',width=0.3) #在對齊為邊緣下,width正值靠右,負值往左
     plt.savefig('figure.png')
 
@@ -54,7 +57,8 @@ def showfigue():
     
     
     
-    
+font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '12'}#設定字形樣式大小
+plt.rc('font', **font) #設定PY繪圖系統的字型項目  
 showfigue()    
     
     

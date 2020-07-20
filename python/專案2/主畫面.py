@@ -56,22 +56,12 @@ def add_storage():
         print('=================================')
         print(df[check])
         print('=================================')
-     
-
         lab14['text']="交易成功"      
         text3.delete('1.0', END)
         s1="交易成功，存入{0}，剩餘{1}\n--------------------------\n".format(storage, (last_number))
         text3.insert(END,s1)
         text3.insert(END,df[check])
         db.close()
-
-
-
-
-
-
-
-
 
 def search_data(): #查詢區1
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
@@ -160,22 +150,39 @@ def showfigue():
     db.close()
     x=df['name']
     y=df['qualianty']
+    plt.title('庫存報表')#圖表的標題
+    plt.xlabel('產品名稱')#x座標標題
+    plt.ylabel('庫存數量')#y座標標題
     plt.bar(x,y,label='a',width=0.3,color='b') #在對齊為邊緣下,width正值靠右,負值往左
     plt.savefig('figure.png')
-
-
     window =Toplevel()
     window.title("庫存系統")
-    window.geometry("550x430")
-    
-    fig=PhotoImage(file="figure.png")
-    
+    window.geometry("550x430")    
+    fig=PhotoImage(file="figure.png")  
     Label(window,image=fig).pack()
     window.mainloop()  
         
-    
-    
-    
+
+def serch_name(): #查詢姓名
+    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
+    test = db.cursor() 
+    df=pd.read_sql("""SELECT * FROM momom""",con=db)
+    db.close()  
+    search_name=et7.get()
+
+    if search_name in df['name'].values:
+        mask=df.iloc[:,1]==search_name
+        lab6['text']='查詢成功'
+        text.delete('1.0', END)
+        text.insert(END,df[mask])
+    else:
+   
+        lab6['text']='無此關鍵字'
+
+
+
+
+  
     
     
 
@@ -184,7 +191,8 @@ import pymysql
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
-
+font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '12'}#設定字形樣式大小
+plt.rc('font', **font) #設定PY繪圖系統的字型項目  
 
 db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
 test = db.cursor() 
@@ -214,8 +222,14 @@ lab3=Label(window,text='查詢ID')
 lab4=Label(window,text='查詢筆數')
 firstNum=IntVar()
 secondNum=IntVar()
-
-    
+#-------------------------------------依照性名查詢
+lab15=Label(window,text='查詢產品名')
+lab15.grid(row=2,column=2,sticky=W)
+et7 = Entry(window,width=5)
+et7.grid(row=2,column=3,sticky=W)
+bt7=Button(window,text="查詢",command=serch_name)#姓名查
+bt7.grid(row=2,column=4) 
+#-------------------------------------  
 
 et1 = Entry(window,width=5,textvariable=firstNum)
 et2 = Entry(window,width=5,textvariable=secondNum)
