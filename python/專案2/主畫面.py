@@ -171,7 +171,7 @@ def serch_name(): #查詢姓名
     search_name=et7.get()
 
     if search_name in df['name'].values:
-        mask=df.iloc[:,1]==search_name
+        mask=df.iloc[:,3]==search_name
         lab6['text']='查詢成功'
         text.delete('1.0', END)
         text.insert(END,df[mask])
@@ -276,8 +276,8 @@ bt3.grid(row=2,column=8,sticky=W)
 bt4=Button(window,text="確認銷售",command=sellsomething)#分區查
 bt4.grid(row=2,column=9,sticky=W)
 
-text2=Text(window,height=4,width=30)  #文字區塊2
-text2.grid(row=3,column=7,columnspan=4,rowspan=3)
+text2=Text(window,height=4,width=35)  #文字區塊2
+text2.grid(row=3,column=6,columnspan=4,rowspan=4)
 
 lab9=Label(window,text='',padx=10)
 lab9.grid(row=2,column=6,columnspan=2)
@@ -303,8 +303,8 @@ bt5.grid(row=9,column=8,sticky=W)
 bt6=Button(window,text="確認存入",command=add_storage)#存入按鈕
 bt6.grid(row=9,column=9,sticky=W)
 
-text3=Text(window,height=6,width=30)  #文字區塊2
-text3.grid(row=10,column=7,columnspan=4,rowspan=6)
+text3=Text(window,height=4,width=35)  #文字區塊2
+text3.grid(row=10,column=6,columnspan=4,rowspan=8)
 
 lab13=Label(window,text='',padx=10)
 lab13.grid(row=9,column=6,columnspan=2)
