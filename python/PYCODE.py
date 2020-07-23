@@ -9,6 +9,6 @@ Created on Fri Jul 17 17:12:26 2020
 import pytesseract
 from PIL import Image
 
-image= Image.open(r'C:\Users\ASUS\Downloads\20200721_11.jpg')
+image= Image.open(r'C:\Users\ASUS\Downloads\20200723_16.jpg')
 code=pytesseract.image_to_string(image)
 print(code)

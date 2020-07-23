@@ -1,0 +1,31 @@
+
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+  (function (a, t, e) {
+    var d = a.createElement("ins");
+    d.className = "rmax";
+    for (var r in e) d.setAttribute(r, e[r]);
+    a.body.appendChild(d);
+    var s = a.createElement("script");
+    s.src = "//tenmax-static.cacafly.net/ssp/adsbytenmax.js", s[t] = t;
+    a.body.appendChild(s)})(document, "async", {
+    "data-rmax-space-id": "c74510facbdb41bd",
+    "data-rmax-space-type": "NATIVE",
+    "data-target-id": "div.todaynews.boxTitle > a",
+    "data-target-index": 1,
+    "data-target-pos": "AFTER"});
+} else {
+  (function (a, t, e) {
+    var d = a.createElement("ins");
+    d.className = "rmax";
+    for (var r in e) d.setAttribute(r, e[r]);
+    a.body.appendChild(d);
+    var s = a.createElement("script");
+    s.src = "//tenmax-static.cacafly.net/ssp/adsbytenmax.js", s[t] = t;
+    a.body.appendChild(s)})(document, "async", {
+    "data-rmax-space-id": "bdeca2e0cb664433",
+    "data-rmax-space-type": "NATIVE",
+    "data-target-id": "div.todaynews.boxTitle > a",
+    "data-target-index": 1,
+    "data-target-pos": "AFTER"
+  });
+}

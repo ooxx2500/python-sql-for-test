@@ -1,0 +1,1 @@
+!function(){var i={tags:[{id:"5e54bd6682da084a17d51396",impressionKpi:"-1",impressionTotal:"27755925",impressionDailyKPI:"-1",impressionDailyTotal:"42903"}]};!function(){window.tagInfor||(window.tagInfor=[]);var o=window.tagInfor;i.tags.forEach(function(n){var i=o.findIndex(function(i){return i.id==n.id});-1!=i?o[i]=n:o.push(n)}),window.tagInfor=o}()}();
