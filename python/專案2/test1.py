@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jul 18 18:39:04 2020
+Created on Tue Jul 21 22:29:53 2020
 
 @author: 莫再提
 """
+
+
 #補貨查詢
 def add_storage_id():
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
@@ -34,7 +36,7 @@ def add_storage():
     in_id=eval(et5.get())
     check=df['id_']==in_id
    
-    quantity=df[check]['quantity'].values[0]
+    quantity=df[check]['qualianty'].values[0]
     print("數量還剩:",quantity) 
     storage=eval(et6.get())
 
@@ -46,7 +48,7 @@ def add_storage():
         db.close()
     else:
         last_number=quantity+storage #存後數量       
-        SQL_update="UPDATE `momom` SET `quantity` = '{0}' WHERE `momom`.`id_` = {1}; "
+        SQL_update="UPDATE `momom` SET `qualianty` = '{0}' WHERE `momom`.`id_` = {1}; "
         SQL_update=SQL_update.format(last_number, in_id )
         test.execute(SQL_update)#資料庫進行相加
         db.commit()
@@ -108,21 +110,21 @@ def sellsomething_ID(): #銷售區查ID
         text2.insert(END,s1)
         
 
-
+#--------------------------------------------------------------
 def sellsomething():    #銷售區
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     df=pd.read_sql("""SELECT * FROM momom""",con=db)
     test = db.cursor()
     in_id=eval(et3.get())
     check=df['id_']==in_id
-    quantity=df[check]['quantity'].values[0]
+    quantity=df[check]['qualianty'].values[0]
     print("數量還剩:",quantity) 
     sell=eval(et4.get())
     print(sell)
     
     df=pd.read_sql("""SELECT * FROM momom""",con=db)
     test = db.cursor()
-    quantity=df[check]['quantity'].values[0]
+    quantity=df[check]['qualianty'].values[0]
     if sell >quantity:
         lab9['text']='交易錯誤，庫存不足。'
         db.close()
@@ -131,39 +133,48 @@ def sellsomething():    #銷售區
         df=pd.read_sql("""SELECT * FROM momom""",con=db)
         
         remain_number=quantity-sell #剩餘數量       
-        SQL_update="UPDATE `momom` SET `quantity` = '{0}' WHERE `momom`.`id_` = {1} and `quantity`>={2}; "
+        SQL_update="UPDATE `momom` SET `qualianty` = '{0}' WHERE `momom`.`id_` = {1} and `qualianty`>={2}; "
         SQL_update=SQL_update.format(remain_number, in_id, sell )
         test.execute(SQL_update)#資料庫進行扣除
         db.commit()
-        SQL_price="SELECT * FROM momom where id_=%d"%in_id
+        SQL_price="SELECT price FROM momom where id_=%d"%in_id
         print(SQL_price)
         
         test.execute(SQL_price)
         price=0
-        goods=''
         for i in test:
-            price=i[0]        
-            goods=i[3]
+            price=i[0]
             print(i)
-        print(price,sell,goods)
-        totalsell = sell*price
+        print(price)
+        totalsell = sell*price     #總銷售金額
         print(totalsell)
-        t=date.today()
-        print(t)
-        SQL_set="INSERT INTO `sell_list` (date, `price`, `quantity`, `total`, `id_`, `name`) VALUES('{0}','{1}','{2}',{3},NULL,'{4}');"
-        SQL_set=SQL_set.format(t, price, sell,totalsell, goods)
-        print(SQL_set)
-        test.execute(SQL_set)
-        db.commit()
-        print('銷售表新增交易完成')
+        
+        
+        
+        
+        
+        
+        
+        
+        
         df=pd.read_sql("""SELECT * FROM momom""",con=db)
         lab9['text']="交易成功"      
         text2.delete('1.0', END)
         s1="交易成功，賣出{0}，剩餘{1}\n--------------------------\n".format(sell, (quantity-sell))
         text2.insert(END,s1)
         text2.insert(END,df[check])
-        print("交易成功")
         db.close()
+
+
+
+
+
+
+
+
+
+
+
 
 
 def showfigue():
@@ -172,7 +183,7 @@ def showfigue():
     df=pd.read_sql("""SELECT * FROM momom""",con=db)
     db.close()
     x=df['name']
-    y=df['quantity']
+    y=df['qualianty']
     plt.title('庫存報表')#圖表的標題
     plt.xlabel('產品名稱')#x座標標題
     plt.ylabel('庫存數量')#y座標標題
@@ -198,34 +209,20 @@ def serch_name(): #查詢姓名
         lab6['text']='查詢成功'
         text.delete('1.0', END)
         text.insert(END,df[mask])
-    else:  
+    else:
+   
         lab6['text']='無此關鍵字'
 
-#------------------------------------------------------------------------
-
-def search_all_sell():#查詢年月日銷售裱
-    print(56456)
 
 
 
-#SELECT * FROM `sell_list` WHERE date BETWEEN '2020-07-01' and '2020-07-22' 
-
-def open_sell():
-    ww =Toplevel()
-    ww.geometry("600x400")
-    ww.title("銷售查詢系統")
-    ww.mainloop()
-
-
-
-
-
-
+  
+    
+    
 
 from tkinter import *
 import pymysql
 import time
-from datetime import *
 import pandas as pd
 import matplotlib.pyplot as plt
 font = {'family' : 'Microsoft JhengHei','weight' : 'bold','size'  : '12'}#設定字形樣式大小
@@ -235,6 +232,9 @@ db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
 test = db.cursor() 
 df=pd.read_sql("""SELECT * FROM momom""",con=db)
 db.close()
+
+
+
 
 
 window =Tk()
@@ -345,20 +345,10 @@ lab13.grid(row=9,column=6,columnspan=2)
 
 lab14=Label(window,text='',padx=10)
 lab14.grid(row=9,column=6,columnspan=2)
-#-------------------------------------------------------------------------
-
-# lab15=Label(window,text='年',padx=10)
-# lab15.grid(row=18,column=6,columnspan=2)
-# lab16=Label(window,text='月',padx=10)
-# lab16.grid(row=18,column=8,columnspan=2)
-# lab17=Label(window,text='日',padx=10)
-# lab17.grid(row=18,column=10,columnspan=2)
 
 bt7=Button(window,text="顯示圖表",command=showfigue)#存入按鈕
-bt7.grid(row=18,column=9,sticky=W)
+bt7.grid(row=18,column=8,sticky=W)
 
-bt7=Button(window,text="查詢銷售",command=open_sell)#存入按鈕
-bt7.grid(row=19,column=9,sticky=W)
 
 
 window.mainloop()

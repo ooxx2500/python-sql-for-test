@@ -9,8 +9,8 @@ Created on Mon Jul 20 16:10:11 2020
 import requests
 from bs4 import BeautifulSoup
 stock="2330" # 尋找股票號碼2347 聯強的資訊
-url='https://stock.pchome.com.tw/stock/sto0/ock3/sid'+stock+'.html'
-header = {
+url="https://tw.stock.yahoo.com/q/ts?s="+stock
+headers = {
 
     'Accept-Language': 'en-US,en;q=0.8',
     'Cache-Control': 'max-age=0',
@@ -18,11 +18,19 @@ header = {
     'Connection': 'keep-alive'
 }
 
+list_req=requests.get(url,headers=headers)
 
-list_req=requests.post(url ,headers=header)
-print(list_req.text)
-soup=BeautifulSoup(list_req.content,"html.parser")
-print(soup)
-getstock=soup.find("table", {"id":"to_chart"})
-print(getstock)
+soup=BeautifulSoup(list_req.content,"lxml")
 
+tables=soup.find_all('table')
+
+
+print(tables[2].find_all('td')[1].text) #股票名稱
+TH=tables[3].find_all('tr')[0].find_all('td')
+TD=tables[3].find_all('tr')[1].find_all('td')
+
+title=[]
+
+for i in TH:
+    title.append(i.text)
+    

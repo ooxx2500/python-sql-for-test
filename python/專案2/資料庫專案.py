@@ -69,6 +69,8 @@ def sellsomething():
         SQL_update="UPDATE `momom` SET `qualianty` = '{0}' WHERE `momom`.`id_` = {1} and `qualianty`>={2}; "
         SQL_update=SQL_update.format(remain_number, in_id, sell )
         test.execute(SQL_update)#資料庫進行扣除
+        
+        
         db.commit()
         df=pd.read_sql("""SELECT * FROM momom""",con=db)
         print("交易成功，賣出%d，剩餘%d"%(sell, (quantity-sell)))
@@ -158,13 +160,13 @@ test = db.cursor()
 df=pd.read_sql("""SELECT * FROM momom""",con=db)
 db.close()
 
+print(df)
 
 
 
 #login()
-
 #search_data()
-serch_name()
+#serch_name()
 #sellsomething()
 
 
