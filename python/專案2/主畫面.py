@@ -291,10 +291,10 @@ def show_sell_figue():
 def showfigue():
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     test = db.cursor() 
-    df=pd.read_sql("""SELECT name , quantity FROM momom GROUP BY name""",con=db)
+    df=pd.read_sql("""SELECT name , SUM(quantity) as "數量" FROM momom GROUP BY name""",con=db)
 
 
-    df.plot.bar(x='name',y='quantity')
+    df.plot.bar(x='name',y='數量')
     plt.title('庫存報表')#圖表的標題
     plt.xlabel('產品名稱')#x座標標題
     plt.ylabel('庫存數量')#y座標標題
@@ -513,24 +513,6 @@ text4.grid(row=5,column=10,columnspan=5,rowspan=19)
 sc12 =Scrollbar(window)
 sc12.grid(row=5,column=15,sticky=(N,S),rowspan=19)
 sc12.config(command=text2.yview) #將轉軸設定為文字的Y軸
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

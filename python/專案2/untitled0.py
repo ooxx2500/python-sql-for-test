@@ -1,100 +1,33 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jul 22 20:11:29 2020
+Created on Sun Jul 26 19:07:35 2020
 
 @author: 莫再提
-"""  
+"""
 
 
-import pymongo 
-import urllib.parse
-import dns
-
-
-
-from pymongo import MongoClient
-
-import urllib.parse
-from datetime import datetime 
-
-###############################################################################
-#                       股票機器人 Python基礎教學 【pymongo教學】                      #
-###############################################################################
-
-##### 發出請求 #####
-client = pymongo.MongoClient("mongodb+srv://root:1234@cluster0.jgbg8.mongodb.net/test?retryWrites=true&w=majority")
-db = client.test
-
-##### 切換資料庫 #####
-dbname='你的資料庫'
-db = client[dbname]
-
-##### 輸入想搜尋的collection #####
-collection_name = '你的collection名稱'
-##### 注意下方的 coll 只是我自己命名 #####
-coll = db[collection_name]
-
-
-
-#####取出所有doc #####
-coll.find()
-
-##### 轉成list #####
-list(coll.find())
-
-##### 插入 單行 #####
-dic = {'userid':'lw73iofqnjwenqeopop12387',
-       'username':'apple',
-       'creattime':datetime.now(),
-       'Note':'testuser'}
-
-coll.insert_one(dic)
-
-##### 插入 多行 #####
-dic_list = [{'userid':'nrt345iofqnjwengtgg4387',
-           'username':'jarry',
-           'creattime':datetime.now(),
-           'Note':'testuser'},
-            {'userid':'jei45646hop4454op12387',
-           'username':'ketio',
-           'creattime':datetime.now(),
-           'Note':'testuser'},
-            {'userid':'rgmmemroemrm37237y4',
-           'username':'zino',
-           'creattime':datetime.strptime('2018-05-30 16:20:06',
-                                         '%Y-%m-%d %H:%M:%S'),
-           'Note':'testuser'}]
-
-coll.insert_many(dic_list)
-
-##### 排序 預設遞增排序 A -> Z #####
-list(coll.find().sort("username"))
-list(coll.find().sort("username",pymongo.ASCENDING))
-list(coll.find().sort("username",pymongo.DESCENDING))
-
-
-##### 根據時間選擇 #####
-start = datetime.strptime('2018-04-30 16:20:06',
-                           '%Y-%m-%d %H:%M:%S')
-end = datetime.strptime('2018-06-30 16:20:06',
-                           '%Y-%m-%d %H:%M:%S')
-list(coll.find({'creattime': {'$gte': start, '$lt': end}}))
-
-##### 針對特殊id 抓取 #####
-from bson.objectid import ObjectId
-list(coll.find({'_id':ObjectId('5c0c84ec63d7d51c508a9890')}))
-
-##### 根據條件 整個取代 #####
-coll.update({'username':'jarry'} ,
-             {'Note':'updateuser'})
-
-##### 根據條件 指取代其中一個 #####
-coll.update({"username":"ketio"},
-            {"$set":{"Email":"libing@126.com","Password":"123"}}) 
-
-
-##### 移除單個 #####
-coll.delete_one({'username':'ketio'})
-
-##### 移除多個 #####
-coll.delete_many({'Note':'testuser'}) 
+   elif event.message.text == "Buttons Template":
+        buttons_template = TemplateSendMessage(
+        alt_text='Buttons Template',
+        template=ButtonsTemplate(
+            title='這是ButtonsTemplate',
+            text='ButtonsTemplate可以傳送text,uri',
+            thumbnail_image_url='顯示在開頭的大圖片網址',
+            actions=[
+                MessageTemplateAction(
+                    label='ButtonsTemplate',
+                    text='ButtonsTemplate'
+                ),
+                URITemplateAction(
+                    label='VIDEO1',
+                    uri='影片網址'
+                ),
+                PostbackTemplateAction(
+                    label='postback',
+                    text='postback text',
+                    data='postback1'
+                )
+            ]
+        )
+    )
+    line_bot_api.reply_message(event.reply_token, buttons_template)
