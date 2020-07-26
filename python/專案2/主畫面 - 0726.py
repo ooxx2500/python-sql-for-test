@@ -286,22 +286,24 @@ def show_sell_figue():
 def showfigue():
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     test = db.cursor() 
-    df=pd.read_sql("""SELECT name , quantity FROM momom GROUP BY name""",con=db)
-
-
-    df.plot.bar(x='name',y='quantity')
+    df=pd.read_sql("""SELECT * FROM momom""",con=db)
+    print(df)
+    db.close()
+    x=df['name']
+    y=df['quantity']
+    print(x)
+    print(y)
     plt.title('庫存報表')#圖表的標題
     plt.xlabel('產品名稱')#x座標標題
     plt.ylabel('庫存數量')#y座標標題
-    plt.xticks(rotation=45 )
+    plt.bar(x,y,label='a',width=0.3,color='b') #在對齊為邊緣下,width正值靠右,負值往左
     plt.savefig('figure.png')
-    
+    print("**************************************************************")
     w =Toplevel()
     w.title("庫存系統")
     w.geometry("550x430")    
     fig=PhotoImage(file="figure.png")  
     Label(w,image=fig).pack()
-    db.close()
     w.mainloop()    
     
 
