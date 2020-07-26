@@ -78,6 +78,9 @@ def search_data(): #查詢區1
         text.insert(END,df[mask].head(how))
         db.close()
 
+
+
+
 def search_all_data(): #查詢區2
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     test = db.cursor() 
@@ -272,7 +275,7 @@ def show_sell_figue():
     
     df.plot(x='日期',y='銷售額')
     plt.xticks(rotation=45 )
-    
+    plt.title('銷售報表')#圖表的標題
     
     plt.savefig('figure_sell.png')
     
@@ -295,11 +298,11 @@ def showfigue():
     plt.title('庫存報表')#圖表的標題
     plt.xlabel('產品名稱')#x座標標題
     plt.ylabel('庫存數量')#y座標標題
-    plt.xticks(rotation=45 )
+    plt.xticks(rotation=0 )
     plt.savefig('figure.png')
     
     w =Toplevel()
-    w.title("庫存系統")
+    w.title("庫存圖表")
     w.geometry("550x430")    
     fig=PhotoImage(file="figure.png")  
     Label(w,image=fig).pack()
