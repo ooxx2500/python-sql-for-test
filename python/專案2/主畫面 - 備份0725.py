@@ -88,79 +88,6 @@ def search_all_data(): #查詢區2
     text.insert(END,st)
     db.close()
 
-
-
-
-
-#----------------------------------------------------
-
-def search_sellall_data(): #查詢所有銷售
-    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
-    df=pd.read_sql("""SELECT date as "日期", price*quantity as "總銷售",name as "產品" FROM sell_list""",con=db)
-    
-    lab24['text']='全部查詢結果'
-    st=df.astype('str')  #df轉STR
-    text4.delete('1.0', END)
-    text4.insert(END,st)
-    db.close()
-
-
-def search_selldate_data(): #查詢日期銷售
-   
-    
-    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
-    df=pd.read_sql("""SELECT date as "日期", price*quantity as "總銷售",name as "產品" FROM sell_list""",con=db)
-    search_name=et11.get()
-    sdate = df['日期'].astype(str).apply(lambda x:x.replace('-',''))
-    db.close()
-    
-    if search_name in sdate.values:
-        mask=sdate.iloc[:]==search_name
-        
-        text4.delete('1.0', END)
-        text4.insert(END,df[mask])
-        
-        
-        print(df[mask])
-    else:  
-        text4.delete('1.0', END)
-        text4.insert(END,"查無關鍵日期")   
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-def search_sellname_data(): #查詢銷售名稱
-    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
-    df=pd.read_sql("""SELECT date as "日期", price*quantity as "總銷售",name as "產品" FROM sell_list""",con=db)
-    search_name=et10.get()
-    print(search_name)
-    
-    if search_name in df['產品'].values:
-        mask=df.iloc[:,2]==search_name #索引2是產品名
-        lab24['text']='查詢成功'
-        text4.delete('1.0', END)
-        text4.insert(END,df[mask])
-    else:  
-        lab24['text']='無此關鍵字'
-
-
-
-
-
-
-
-
-
-
-#-----------------------------------------------------------------
-
 def sellsomething_ID(): #銷售區查ID
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     df=pd.read_sql("""SELECT * FROM momom""",con=db)
@@ -169,7 +96,6 @@ def sellsomething_ID(): #銷售區查ID
    
     try:
         in_id=eval(et3.get())
-        print(in_id)
         check=df['id_']==in_id
         s1=df[check]
   
@@ -274,21 +200,6 @@ def serch_name(): #查詢姓名
         text.insert(END,df[mask])
     else:  
         lab6['text']='無此關鍵字'
-    
-def serch_name2(): #查詢姓名2
-    db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
-    test = db.cursor() 
-    df=pd.read_sql("""SELECT * FROM momom""",con=db)
-    db.close()  
-    search_name=et7.get()
-
-    if search_name in df['name'].values:
-        mask=df.iloc[:,3]==search_name
-        lab6['text']='查詢成功'
-        text.delete('1.0', END)
-        text.insert(END,df[mask])
-    else:  
-        lab6['text']='無此關鍵字'
 
 #------------------------------------------------------------------------
 
@@ -305,10 +216,9 @@ def open_sell():
     ww.title("銷售查詢系統")
     
     
-
     
     
-
+    ww.mainloop()
 
 
 
@@ -333,7 +243,7 @@ db.close()
 
 window =Tk()
 window.title("庫存系統")
-window.geometry("850x400")
+window.geometry("600x400")
 
 
 lab1=Label(window,text='請輸入查詢範圍')
@@ -453,78 +363,6 @@ bt7.grid(row=18,column=9,sticky=W)
 
 bt7=Button(window,text="查詢銷售",command=open_sell)#存入按鈕
 bt7.grid(row=19,column=9,sticky=W)
-
-#-------------------------------------------最右邊銷售表 col=10
-
-
-# lab15=Label(window,text='銷售查詢',padx=10)
-# lab15.grid(row=0,column=10,columnspan=2)
-
-# lab16=Label(window,text='日期',padx=10)
-# lab16.grid(row=0,column=11,columnspan=2)
-
-lab18=Label(window,text='請輸入銷售表查詢範圍')
-lab19=Label(window,text='全部查詢')
-bt8=Button(window,text="查詢",command=search_sellall_data)#全查
-lab18.grid(row=0,column=10,sticky=W,columnspan=6)
-lab19.grid(row=1,column=10,sticky=W)
-bt8.grid(row=1,column=11)
-
-lab20=Label(window,text='分區查詢')
-lab20.grid(row=2,column=10,sticky=W)
-
-lab21=Label(window,text='查詢日期')
-
-
-#-------------------------------------依照性名查詢
-lab23=Label(window,text='查詢產品名')
-lab23.grid(row=2,column=12,sticky=W)
-et10 = Entry(window,width=8)
-et10.grid(row=2,column=13,sticky=W)
-bt10=Button(window,text="查詢",command=search_sellname_data)#姓名查
-bt10.grid(row=2,column=14) 
-#-------------------------------------  
-
-et11 = Entry(window,width=10,textvariable=StringVar()) #輸入日期
-
-lab21.grid(row=3,column=10,sticky=W)
-et11.grid(row=3,column=11,sticky=W)
-
-
-
-
-bt11=Button(window,text="查詢",command=search_selldate_data)#分區查
-bt11.grid(row=3,column=12)
-
-lab24=Label(window,text='') #查詢結果
-lab24.grid(row=4,column=11,sticky=W,columnspan=2)
-
-text4=Text(window,height=20,width=35)  #文字區塊4
-text4.grid(row=5,column=10,columnspan=5,rowspan=19)
-sc12 =Scrollbar(window)
-sc12.grid(row=5,column=15,sticky=(N,S),rowspan=19)
-sc12.config(command=text2.yview) #將轉軸設定為文字的Y軸
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 window.mainloop()

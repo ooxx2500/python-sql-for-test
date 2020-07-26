@@ -13,8 +13,23 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-df=pd.read_csv(r"C:\Users\ASUS\Documents\Python-SQL\python\專案3 LBOT\stockname.csv")
+df=pd.read_csv(r"C:\Users\莫再提\Documents\python-sql-for-test\python\專案3LBOT\stockname.csv")
 df=df[['證劵代號','證劵名稱']]
+stock_num=[]
+for i in df['證劵代號']:
+    stock_num.append(i)
+#print(stock_num)
+
+stock_name=[]
+for i in df['證劵名稱']:
+    stock_name.append(i.strip())
+#print(stock_name)
+
+
+
+#--------------------------------------------
+
+
 s_name="中信"  #搜尋名稱
 
 a=df['證劵代號']
