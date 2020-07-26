@@ -10,22 +10,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyimgur
 
-def glucose_graph():
-    """
-    plt.figure(figsize=(240,240))
-    plt.plot(ug)
-    plt.savefig('send.png')
-    """
-    # normal_samples = np.random.normal(size = 100000)
-    # uniform_samples = np.random.uniform(size = 100000)
-    # plt.hist(normal_samples)
-    # plt.savefig('send.png')
-    CLIENT_ID = "ooxx2500@gmail.com"
-    PATH = r"C:\Users\莫再提\Desktop\0001.jpg"
-    im = pyimgur.Imgur(CLIENT_ID)
-    uploaded_image = im.upload_image(PATH, title="Uploaded with PyImgur")
-    return uploaded_image.link
-img_url = glucose_graph()
-print(img_url)
+from tkinter import *
+import pymysql
+import time
+from datetime import *
+import pandas as pd
+import matplotlib.pyplot as plt
 
+
+db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
+
+sql="""SELECT date as '日期', SUM(price*quantity) as '銷售額'
+FROM sell_list Where date between '{0}' and '{1}'
+GROUP BY date""".format('2020-07-01','2020-07-31')
+ 
+df=pd.read_sql(sql,con=db)
+print(df)
 

@@ -263,11 +263,13 @@ def show_sell_figue():
     search_end=et13.get()
     db = pymysql.connect( "Localhost"  ,'root' ,'1234' ,'test' ,charset='utf8')
     
-    sql="""SELECT date as '日期', price*quantity as '銷售額' 
+    sql="""SELECT date as '日期', SUM(price*quantity) as '銷售額' 
     FROM sell_list Where date between '{0}' and '{1}'
     GROUP BY date""".format(search_start,search_end)
  
     df=pd.read_sql(sql,con=db)
+    print(df)
+    
     df.plot(x='日期',y='銷售額')
     plt.xticks(rotation=45 )
     
