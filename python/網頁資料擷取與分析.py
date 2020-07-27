@@ -497,7 +497,33 @@ for single_tr in bsObj.find("table", {"title":"牌告匯率"}).find("tbody").fin
     f.close()    #關閉csv檔案    
     
 --------------------------------------    
-    
+ 
+import requests
+from bs4 import BeautifulSoup
+
+
+
+headers = {
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)'\
+    'AppleWebkit/537.36 (KHTML, like Gecko) chrome/56.0.2924.87 Safari/537.36'
+    }
+
+rs = requests.Session() #建立rs物件
+res = rs.get('https://hk.appledaily.com/realtime/index',headers = headers)
+res.encoding='utf-8'
+con=True
+if res.status_code==200:
+    print("連結成功")
+else:
+    print("連線失敗")
+    con=False
+if con:    
+    soup = BeautifulSoup(res.content, "lxml")    
+    items = soup.find("div",{"class":"LHSContent_inner NoTab"}).find_all("a")    
+    for i in items:
+        print(i.text.strip())
+
+---------------------------------------
 '''
 urllib :使用urllib.request的urlopen的方法取得遠端網頁，再使用read()方法讀取內容
 

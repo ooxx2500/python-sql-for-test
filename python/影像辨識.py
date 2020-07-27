@@ -705,24 +705,203 @@ cv.imshow('extracting',extracting)
 cv.waitKey()
 
 
+"""
+影像辨識(機器) 速度 準確(人臉 物品 文字)
+影像分類器 載入影像進入辨識(差異:角度、方向、雜訊、面積、色彩)
+    經影像處理運算，不同的演算即處理方法    各自特色(分類器)
+    產生分類器(調整各參數)
+    自行訓練分類>機器學習(深度學習)>各種機器/深度學習演算法
+
+img.shape[0]:圖片亮度
+img.shape[1]:圖片寬度
+"""
+#辨識圖像
+import cv2 as cv
+pict =r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml'
+faceCascade = cv.CascadeClassifier (pict)
+
+ 
+
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\face_trump01.jpg')
+faces=faceCascade.detectMultiScale(img,scaleFactor=1.1,
+minNeighbors=2, minSize=(20,20), flags = cv.CASCADE_SCALE_IMAGE)
+
+cv.rectangle(img, (10,img.shape[0]-20),
+(110,img.shape[0]), (0,0,0), -1)
+cv.putText(img,"Find " + str(len(faces)) +" face!",
+(10, img.shape[0]-5), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2)
+
+for (x,y,w,h) in faces:
+    cv.rectangle(img, (x,y), (x+w, y+h) ,(128,255,0),2)
+
+cv.namedWindow("facedetect")
+cv.imshow('facedetect',img)
+cv.waitKey()
+-----------------------------------------
+#視窗可條大小
+#img.shape[0]:圖片亮度
+#img.shape[1]:圖片寬度
+"""
+
+辨識流程:
+    設定分類器檔案(*.xml)路徑位置
+    建立分類器物件(載入上述位置)
+    讀入待變式影像
+    由分類器物件執行預測影像(人臉)
+    繪製圖型編著偵測的影像範圍   
+"""
+import cv2 as cv
+pict =r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml'
+faceCascade = cv.CascadeClassifier (pict)#建立分類器物件
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\person_3.jpg')
+#讀取待辨識影像
+faces=faceCascade.detectMultiScale(img,scaleFactor=1.3,
+minNeighbors = 2, minSize=(20,20))
+#參數查影像
+cv.rectangle(img, (img.shape[1]-140, img.shape[0]-20),
+(img.shape[1],img.shape[0]), (0,255,255), -1)
+#傳回預測的範圍
+#標註區域找影像的範圍
+cv.putText(img, "Finding " + str(len(faces)) + " face",
+(img.shape[1]-135, img.shape[0]-5),
+
+cv.FONT_HERSHEY_COMPLEX, 0.5, (255,0,0), 1)
+
+for (x,y,w,h) in faces:   #把人臉框起來(位置 x,y) 大小寬高(w,h)
+    cv. rectangle(img, (x,y), (x+w, y+h) , (255,0,0) ,2) #畫矩形
+
+cv.namedWindow("face")
+cv.imshow('face',img)
+cv.waitKey()
+
+----------------------------------------
+#影像辨識+辨視眼睛(可以換其他分類器抓)
+import cv2 as cv
+pict =r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml'
+
+face_cascade = cv.CascadeClassifier(pict)
+
+eyepict = r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_mcs_nose.xml'
+               #想抓其他的改上面的分類器xml檔路徑
+eye_cascade = cv.CascadeClassifier(eyepict)
+
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\lena_01.jpg')
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+faces=face_cascade.detectMultiScale(img,scaleFactor=1.15,
+minNeighbors=10, minSize=(20,20))
+
+for (x,y,w,h) in faces: #先找出臉
+    cv. rectangle(img, (x,y), (x+w, y+h) , (255,0,0) ,2) #畫矩形
+    roi_gray=gray[y:y+h, x:x+w]
+    roi_color=img[y:y+h, x:x+w]
+    
+    eyes=eye_cascade.detectMultiScale(roi_gray)
+    for (ex,ey,ew,eh) in eyes:#在找眼睛
+        cv.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh) , (0,255,0) ,2)
+cv. imshow('img' ,img)
+cv.waitKey()
+----------------------------------
+#框圖像並存檔
+import cv2 as cv
+from PIL import Image
+casc_path =r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml'
+faceCascade =cv.CascadeClassifier(casc_path)
+imagename=r'C:\Users\ASUS\Documents\Python-SQL\python\figure\person_8.jpg'
+image=cv.imread(imagename)
+faces=faceCascade.detectMultiScale(image,scaleFactor=1.3,
+minNeighbors=1, minSize=(30,30), flags = cv.CASCADE_SCALE_IMAGE)
 
 
+count=1
+for (x,y,w,h) in faces: 
+    cv.rectangle(image, (x,y), (x+w,y+h), (128,255,0), 2)
+    filename=str(count)+'.jpg'
+    image1=Image.open(imagename)
+    image2 = image1.crop((x, y, x+w, y+h)) #.crop材切 .resize重置大小
+    image3 = image2.resize((200, 200), Image. ANTIALIAS) #.ANTIALIAS 影像最佳化
+    res=r'C:\Users\ASUS\Documents\Python-SQL\python\figure\face'+filename
+    image3.save(res)    
+    count+=1
+
+cv.namedWindow('facedetect')
+cv.imshow('facedetect', image)
+cv.waitKey()
+
+-----------------------------------
+#框圖像並存檔 
+import cv2 as cv
+from PIL import Image
+pictPath = r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml'
+face_cascade = cv.CascadeClassifier(pictPath)
+
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\person_8.jpg')
+
+faces=face_cascade.detectMultiScale(img,scaleFactor=1.1,
+minNeighbors=5, minSize=(10,10))
+
+cv.rectangle(img, (img.shape[1]-140, img.shape[0]-20),
+(img.shape[1],img.shape[0]), (0,255,255), -1)
+
+cv.putText(img, 'Finded ' + str(len(faces)) + ' face',
+           (img.shape[1]-135,img.shape[0]-5),
+cv.FONT_HERSHEY_COMPLEX, 0.5, (255,0,0), 1)
+
+num=1
+
+for (x,y,w,h) in faces: 
+    cv.rectangle(img, (x,y), (x+w,y+h), (255,0,0), 2)
+    filename=str(num)+'.jpg'
+    image=Image.open(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\person_8.jpg')
+    imageCrop = image.crop((x, y, x+w, y+h)) #.crop材切 .resize重置大小
+    imageResize = imageCrop.resize((150, 150), Image. ANTIALIAS) #.ANTIALIAS 影像最佳化
+    res=r'C:\Users\ASUS\Documents\Python-SQL\python\figure\newface'+filename
+    imageResize.save(res)    
+    num+=1
 
 
+cv.imshow('Face', img)
+cv.waitKey()
 
+---------------------------------
+#辨識人臉加上5官
+import cv2 as cv
+face_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_frontalface_default.xml')
+eye_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_eye.xml')
+mouth_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_mcs_mouth.xml')
+nose_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_mcs_nose.xml')
+leftear_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_mcs_leftear.xml')
+rightear_cascade = cv.CascadeClassifier(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\haarcascade_mcs_rightear.xml')
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\lena_01.jpg')
+gray=cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+#face detect
+faces=face_cascade.detectMultiScale(gray,scaleFactor=1.2, minNeighbors=3)
+for (x, y, w, h) in faces:
 
+    img = cv.rectangle(img, (x,y),(x+w, y+h), (255, 0, 0), 2)
+    roi_gray=gray[y:y+h, x:x+w]
+    roi_color=img[y:y+h, x:x+w]
 
+    eyes = eye_cascade.detectMultiScale(roi_gray,scaleFactor=1.2,minNeighbors=3,minSize=(30,30))
+    for (ex,ey,ew,eh) in eyes:
+        cv.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0, 255, 0), 2)
 
-
-
-
-
-
-
-
-
-
-
-
+    mouth=mouth_cascade.detectMultiScale(roi_gray, scaleFactor=1.2,minNeighbors=3,minSize=(10,10))
+    for (mx, my, mw, mh) in mouth:
+        cv.rectangle(roi_color, (mx, my), (mx+mw, my+mh), (0, 0, 255), 2)
+        
+        
+    nose = nose_cascade.detectMultiScale(roi_gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30) )
+    for (nx, ny, nw, nh) in nose:
+        cv.rectangle(roi_color, (nx, ny), (nx+nw, ny+nh), (255, 0, 255), 2)
+    
+    leftear = leftear_cascade.detectMultiScale(roi_gray,scaleFactor=1.01,minNeighbors=2, minSize=(30,30))
+    for (lx, ly, lw, lh) in leftear:
+        cv.rectangle(roi_color, (lx, ly), (lx+lw, ly+lh), (0, 0, 0), 2)
+    
+    rightear = rightear_cascade.detectMultiScale(roi_gray,scaleFactor=1.01,minNeighbors=2, minSize=(30,30))
+    for (rx, ry, rw, rh) in rightear:
+        cv.rectangle(roi_color, (rx, ry), (rx+rw, ry+rh), (0, 0, 0), 2)
+cv.imshow('img', img)
+cv.waitKey()
 
 
