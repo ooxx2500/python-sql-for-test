@@ -24,3 +24,10 @@ print(stock.price)#進31個收盤價
 print('近6個收盤價')
 print(stock.price[-6:])#進6個收盤價
 
+rel = twstock.realtime.get('2002')
+if rel['success']:
+    print('股票即時資料')
+    print(rel)
+    print('錯誤:'+rel['rtmessage'])
+    print('目前資訊:')
+    print(rel['realtime']['latest_trade.price'])
