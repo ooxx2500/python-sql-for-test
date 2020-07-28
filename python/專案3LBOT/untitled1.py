@@ -5,26 +5,23 @@ Created on Mon Jul 27 17:36:11 2020
 @author: ASUS
 """
 
-import dlib
+import numpy as np
 import cv2 as cv
-import imutils
+import dlib
 
-img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\face_execuite.jpg')
-img = imutils.resize(img, width=1280)
+predictor_path = r'C:\Users\ASUS\Documents\Python-SQL\python\figure\shape_predictor_68_face_landmarks.dat'
 detector = dlib.get_frontal_face_detector()
-
-#偵測人臉，輸出分數
-face_rects, scores, idx = detector.run(img, 1, -1)
-
-for i, d in enumerate(face_rects):
-  x1 = d.left()         
-  y1 = d.top()
-  x2 = d.right()
-  y2 = d.bottom()
-  text ="%2.2f(%d)" % (scores[i], idx[i])
-  cv.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 4, cv.LINE_AA)
-  #標示分數                                                    
-  cv.putText(img, text, (x1, y1), cv.FONT_HERSHEY_DUPLEX,
-          0.7, (255, 255, 255), 1, cv.LINE_AA)
-cv.imshow("Face Detection", img)
+predictor = dlib.shape_predictor(predictor_path)
+img = cv.imread(r'C:\Users\ASUS\Documents\Python-SQL\python\figure\person_8.jpg')
+img_gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
+nums = detector(img_gray, 0)
+for i in range(len(nums)):
+    landmarks = np.matrix([[p.x, p.y] for p in predictor(img,nums[i]).parts()])
+    for idx, point in enumerate (landmarks):
+        pos = (point[0 , 0], point[0, 1])
+        print(idx,pos)
+        cv.circle(img, pos, 3, color=(0, 255, 0))
+        font = cv.FONT_HERSHEY_SIMPLEX
+        cv.putText(img, str(idx+1), pos, font, 0.4, (0, 0, 255), 1,cv.LINE_AA)
+cv.imshow("img", img)
 cv.waitKey()
