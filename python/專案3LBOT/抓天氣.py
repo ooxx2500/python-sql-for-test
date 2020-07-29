@@ -4,14 +4,42 @@ Created on Sat Jul 25 01:25:37 2020
 
 @author: 莫再提
 """
-
-
 import requests
 from bs4 import BeautifulSoup
-stock="2330" # 尋找股票號碼2347 聯強的資訊
-url="https://www.cwb.gov.tw/V8/C/W/County/County.html?CID=1"
-list_req=requests.get(url)
-soup=BeautifulSoup(list_req.content,"lxml")
-lu=soup.find_all("ul")
 
-print(lu)
+def check_weather(city):
+    citynumber=[20070335, 20070568, 20070569, 20070570, 20070572, 22695855, 22695856, 2295794, 2296315, 2296872, 2297839, 2301128, 2303611, 2304594, 2347336, 2306179, 2306180, 2306181, 2306182, 2306183, 2306184, 2306185, 2306186, 2306187, 2306188, 2306189, 2306190, 2306193, 2306194, 2306195, 2306198, 2306199, 2306200, 2306201, 2306202, 2306203, 2306204, 2306206, 2306207, 2306208, 2306209, 2306210, 2306211, 2306212, 2306213, 2306214, 2306217, 2306218, 2306223, 2306224, 2306226, 2306227, 2306228, 2306229, 2306231, 2306232, 2306243, 2306250, 2306251, 2306254, 2306255, 2347334, 2347335, 2347336, 2347338, 2347339, 2347340, 2347344, 2347345, 2347346, 12703515, 12703525, 12703534, 12703539, 12703543, 12703556, 12703563, 23424971, 28751581, 28751582, 28751583, 28751584, 28752011, 28752322, 28752396, 28752472, 28760734, 28760735, 55863654, 7153409]
+    cityname=['台灣', '台北', '新北市', '高雄', '彰化', '基隆', '澎湖', '旗山', '嘉義', '竹東', '恆春', '苗栗', '豐原', '大武', '宜蘭', '台北', '高雄', '台中', '台南', '彰化', '中壢', '新竹', '新店', '花蓮', '基隆', '屏東', '台東', '佳里', '清水', '二林', '宜蘭', '岡山', '觀音', '鹿港', '龍潭', '麻豆', '南投', '布袋', '石岡', '蘇澳', '大園', '大甲', '淡水', '斗南', '東港', '鶯歌', '新化', '新社', '金山', '枋山', '和平', '關山', '三芝', '三灣', '萬里', '玉井', '南澳', '虎尾', '雙溪', '桃園國際機場', '高雄國際機場', '新竹', '花蓮', '宜蘭', '苗栗', '南投', '屏東', '台東', '桃園', '雲林', '台北', '台北', '新竹', '台中', '彰化', '高雄', '屏東', '台灣', '台南', '新竹', '嘉義', '台中', '南區', '淡水', '花蓮', '桃園', '連江', '金門', '太魯閣國家公園', '嘉義']   
+    city="台北"
+    a=cityname.index(city)
+    number=citynumber[a]    
+    number=str(number)
+    url="https://tw.news.yahoo.com/weather/%E8%87%BA%E7%81%A3/%E8%87%BA%E5%8C%97%E5%B8%82/%E8%87%BA%E5%8C%97%E5%B8%82-"+number
+    retext=''
+    page=requests.get(url)
+    data=BeautifulSoup(page.content,"lxml")
+    class_="city Fz(2em)--sm Fz(3.7em)--lg Fz(3.3em) Fw(n) M(0) Trsdu(.3s) desktop_Lh(1) smartphone_Lh(1)"
+    city_name=data.findAll('h1',{'class':class_})[0]
+    retext+="縣市:"+city_name.text+'\n'
+    temp = data.findAll('span',{'class':'Va(t)'})[0]
+    retext+="溫度:"+temp.text+'\n'
+    body_temp = data.findAll('div',{'class':'Fl(end)'})[1].text #體感溫度
+    humidity = data.findAll('div',{'class':'Fl(end)'})[2].text #濕度
+    Ultraviolet_rays = data.findAll('div',{'class':'Fl(end)'})[4].text #紫外線
+    moon = data.findAll('div',{'class':'Fl(end)'})[5].text #月亮
+    rain = data.find_all('span',{'class':'D(ib) W(3.6em) Fz(1.2em) Ta(c)'})[0].text
+    retext+="體感溫度:"+body_temp+'\n'
+    retext+="濕度:"+humidity+'\n'
+    retext+="紫外線:"+Ultraviolet_rays+'\n'
+    retext+="降雨機率:"+rain+'\n'
+    #print("月亮:",moon)  
+    return retext
+
+
+print(check_weather('台北市'))
+
+
+
+
+
+
