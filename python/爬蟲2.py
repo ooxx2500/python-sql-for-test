@@ -262,6 +262,56 @@ for article in articles:
         print ('推文數量: ',article['push_num'], '\n')
     
 
+---------------------------------------
+#pm25用json的dump load讀取json
+
+import requests
+import json
+
+url = r'http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json'
+
+try:
+    aqijsons = requests.get(url)
+    print("下載成功")
+except Exception as err:
+    print("下載失敗")
+
+print(aqijsons.text)
+
+fn = r'C:\Users\ASUS\Documents\Python-SQL\python\aqi.json'
+with open(fn, 'w') as f:
+    json.dump(aqijsons.json(),f)#將網頁讀取的JSON檔轉儲存 用dump儲存(轉為json)
+       
+#--------------------------------------------    
+import json
+
+fn = r'C:\Users\ASUS\Documents\Python-SQL\python\aqi.json'
+with open(fn) as fnObj:
+    getDatas = json.load(fnObj) #將json黨獨取為py物件 用load
+
+for getData in getDatas:
+    county = getData['County']
+    sitename = getData['SiteName']
+    siteid = getData['SiteId']
+    pm25 = getData['PM2.5']
+    print('城市名稱 =%4s 站台ID =%3s PM2.5值 =%3s  站台名稱 = %s ' %  
+    (county, siteid, pm25, sitename))
+
+
+#------------------------------------------------    
+import json
+
+fn = r'C:\Users\ASUS\Documents\Python-SQL\python\aqi.json'
+with open(fn) as fnObj:
+    getDatas = json.load(fnObj)
+
+for getData in getDatas:
+    if getData[ 'County' ]== '新北市' :
+         sitename = getData['SiteName']
+         siteid = getData['SiteId']
+         pm25 = getData['PM2.5']
+         print('站台ID =%3s  PM2.5 值=%3s  站台名稱=%s ' %(siteid, pm25, sitename))
+
 
 
 
