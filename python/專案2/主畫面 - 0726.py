@@ -515,22 +515,4 @@ sc12.config(command=text2.yview) #將轉軸設定為文字的Y軸
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.mainloop()

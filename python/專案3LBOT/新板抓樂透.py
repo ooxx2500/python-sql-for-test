@@ -39,22 +39,24 @@ def check_lottor(name):
         text='*****  大樂透  *****'+'\n'
         c=1
         
-        lst=[x for x in range(15,21)]
+        lst=[x for x in range(10,16)]
         for div in divs:
         
             if c==3:
                 div2=div
             c+=1
         divs=div2.find_all("div")
+        c=1
         for div in divs:
-            c+=1
+            
+            
             if c==2:
                 text+=div.text+'\n'+"開獎號碼:"
             elif c in lst:
                 text+=div.text+" "
-            elif c==21:
+            elif c==16:
                       text+='\n'+'特別號:'+div.text  
-        
+            c+=1
         return text
     
     
