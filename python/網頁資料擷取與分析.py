@@ -401,8 +401,7 @@ Python取得網頁資料
   動態網頁資料:
 
 
-'''
-'''
+
 讀取網站檔案:requests
     發送GET請求:Browser輸入網址，再由伺服器回應到使用者端，不安全看得到密碼
     Requests請求:可不經過瀏覽器發送GET直接存取網頁
@@ -418,10 +417,15 @@ Beautifulsoup的解析器
     html5lib
     
   方法:
+    soup.getText()  取得所有網站的文字內容 
+    soup.text 同上
+      
     find():傳回第一個符合的標籤內容，傳回值為字串
+    find(id='id內容')    find(class_='class內容')
     find_all():傳回所有符合的標籤內容，傳回值是一個串列
     find(標簽名稱,{'屬性名稱':'屬性值'})     屬性為字典型別
-    find_all(標簽名稱,{'屬性名稱':'屬性值'}) 沒屬性用標籤名稱就可以   
+    find_all(標簽名稱,{'屬性名稱':'屬性值'}) 沒屬性用標籤名稱就可以 
+    
     select():以CSS選擇器的方式讀取指定的資料，傳回值為串列
         1.讀取CSS的ID:必須於id前加上# 
           例如<div id='first'>內容</div>
@@ -433,7 +437,47 @@ Beautifulsoup的解析器
           例如<html><head><title>內容</title></head></html>
           data = BeautifulSoup物件.select('html head title')
           
+          Soup.select('p')       找所有標籤為p的元素
+          Soup.select('img')     找所有標籤為img的元素
+          Soup.select('#first')  找所有id為first的元素
+          Soup.select('.first')  找所有class為first的元素
+          Soup.select('p .first')  找所有在p標籤內class為first的元素
+          Soup.select('div strong')  找所有標籤為div元素內的strong元素
+          Soup.select('div > strong')  找所有標籤為div元素內的strong元素中間沒其他元素
+          Soup.select('input[name]')  找所有標籤為input且元素內有屬性為name的元素
+ 
+    如果網頁很亂可以用 print(soup.prettify()) 印出漂亮的html
+
+    a標籤.get('href') 可取得a標籤內的網頁屬性
+    a標籤['href'] 同上
+
+
+
+
+
+
+         
 html.encoding='utf-8-sig' 用編碼UTF8開啟
+
+requests 方法
+
+payload = {
+    'from': 'https://www.ptt.cc/bbs/Gossiping/index.html',
+    'yes': 'yes' #第2個yes隨便打一個值都可以，代表按下yes按鈕
+    }
+#讓程式去模擬瀏覽器操作，騙過伺服器防護
+headers = {
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)'\
+    'AppleWebkit/537.36 (KHTML, like Gecko) chrome/56.0.2924.87 Safari/537.36'
+    }
+
+rs = requests.Session() #建立rs物件
+rs.post('https://www.ptt.cc/ask/over18',data = payload , headers = headers)
+
+rs.status_code   200代表連線成功
+
+
+
 
           
 '''
@@ -652,6 +696,9 @@ for item in items:
     print(item.select('.date')[0].text, item.select('.author')[0].text,\
           item.select('.title')[0].text)
 
+
+print(soup.getText()) #getText() 可取得網站所有內容
+
 -----------------------------
 html = '''
 <html><head><title>網頁標題</title></head></html>
@@ -693,7 +740,7 @@ print(sp.select('div img')[0])
 2.去網路下載解壓縮 chrome webDriver
 
 
-
+driver.page_source  可以回傳當前網頁的原始碼
 
 
 
@@ -703,7 +750,7 @@ print(sp.select('div img')[0])
 #pip install selenium      
 from selenium import webdriver
 
-driver_path = r'C:\Users\ASUS\Desktop\chromedriver.exe'
+driver_path = r'C:\Users\莫再提\Documents\python-sql-for-test\python\練習資料\chromedriver.exe'
 url = 'https://www.facebook.com'
 email = ' '
 password=' '
@@ -744,7 +791,7 @@ web.close() #關閉瀏覽器
 #打開YAHOO並在搜尋欄輸入字，再按搜尋
 from selenium import webdriver
 url="https://tw.yahoo.com/"
-driver_path=r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
+driver_path=r"C:\Users\莫再提\Documents\python-sql-for-test\python\練習資料\chromedriver.exe"
 browser=webdriver.Chrome(driver_path)
 browser.get(url)#開啟瀏覽器
 
@@ -756,7 +803,7 @@ sumbit=browser.find_element_by_id("UHSearchWeb").click()
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-driver_path = r'C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe'
+driver_path = r'C:\Users\莫再提\Documents\python-sql-for-test\python\練習資料\chromedriver.exe"
 driver = webdriver.Chrome(driver_path)
 driver.get('http://www.python.org')
 print(driver.title)#印出該網頁的標題
@@ -794,7 +841,7 @@ assert a>b
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-driver_path = r"C:\Users\ASUS\Documents\Python-SQL\python\練習資料\chromedriver.exe"
+driver_path = r"C:\Users\莫再提\Documents\python-sql-for-test\python\練習資料\chromedriver.exe"
 driver = webdriver.Chrome(driver_path)#找出搜尋欄填入關鍵字
 driver.get('http://www.imdb.com/')
 
