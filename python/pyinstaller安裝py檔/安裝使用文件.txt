@@ -1,0 +1,17 @@
+0.pip install pyinstaller
+
+1.在命令列移動到安裝資料夾 裡面要放入PY檔
+
+2.要安裝檔案時請將路徑切到該資料夾目錄下
+EX  cd C:\Users\ASUS\Desktop\5656
+
+3.安裝PY檔
+pyinstaller .\要安裝的檔.py
+
+4.如果錯誤代表檔案太長
+在安裝後會出現新的.spec檔，用筆記本打開寫入以下兩行
+import sys
+sys.setrecursionlimit(5000)
+
+5.再次執行，但是黨名要換成.spec那個檔
+pyinstaller .\要安裝的檔.spec
