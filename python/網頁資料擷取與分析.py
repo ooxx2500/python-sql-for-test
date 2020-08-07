@@ -540,8 +540,37 @@ for single_tr in bsObj.find("table", {"title":"牌告匯率"}).find("tbody").fin
     w.writerows(data)    #寫入data物件
     f.close()    #關閉csv檔案    
     
---------------------------------------    
+-------------------------------------- 
+#換IP
+import requests
+from bs4 import BeautifulSoup
+import random
+
+if __name__=='__main__':
+    proxy=['210.61.240.158:8080','101.4.136.34:81']
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)'\
+        'AppleWebkit/537.36 (KHTML, like Gecko) chrome/56.0.2924.87 Safari/537.36'
+        }
+    ip=random.choice(proxy)
  
+    rs = requests.Session() #建立rs物件
+    res = rs.get('http://ip.filefab.com/index.php',
+               proxies={'http':'http://'+ip})
+    res.encoding='utf-8'
+    con=True
+    if res.status_code==200:
+        print("連結成功")
+    else:
+        print("連線失敗")
+        con=False
+    if con:    
+        soup = BeautifulSoup(res.content, "lxml")    
+        print(soup.text)
+
+
+   
+--------------------------------------- 
 import requests
 from bs4 import BeautifulSoup
 
@@ -566,6 +595,31 @@ if con:
     items = soup.find("div",{"class":"LHSContent_inner NoTab"}).find_all("a")    
     for i in items:
         print(i.text.strip())
+----------------------------------------
+
+import requests
+from bs4 import BeautifulSoup
+
+
+
+headers = {
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)'\
+    'AppleWebkit/537.36 (KHTML, like Gecko) chrome/56.0.2924.87 Safari/537.36'
+    }
+cookies={'over18':'1'}
+rs = requests.Session() #建立rs物件
+res = rs.get('https://www.ptt.cc/bbs/Gossiping/index.html'https://www.ptt.cc/bbs/Gossiping/index.html,cookies=cookies)
+res.encoding='utf-8'
+con=True
+if res.status_code==200:
+    print("連結成功")
+else:
+    print("連線失敗")
+    con=False
+if con:    
+    soup = BeautifulSoup(res.content, "lxml")    
+    print(soup.text)
+
 
 ---------------------------------------
 '''
