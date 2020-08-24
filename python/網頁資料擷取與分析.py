@@ -267,7 +267,56 @@ d2 = json.dumps(d1,sort_keys = True,indent = 4)
 #json.loads()：為json.dumps()的反向，將已編碼的json字串解碼為Python物件
 print(d2)
 
+----------------------------------------------
+#將中文顯示正確用 ensure_ascii=False
+import json
+import pandas as pd
 
+js=[
+ {
+ "id": "1",
+ "title": "領導力",
+ "items": [
+ {"id": "1.1", "title": "溝通能力"},
+ {
+ "id": "1.2",
+ "title": "判斷能力",
+ "items": [
+ {"id": "1.2.1", "title": "分析能力"},
+ {"id": "1.2.2", "title": "應變能力"},
+ {"id": "1.2.3", "title": "觀察力"}
+ ]
+ }
+ ]
+ },
+ {
+ "id": "2",
+ "title": "創作力",
+ "items": [
+ {"id": "2.1", "title": "創意"},
+ {
+ "id": "2.2",
+ "title": "計畫",
+ "items": [
+ {"id": "2.2.1", "title": "資料收集"},
+ {
+"id": "2.2.2",
+"title": "企劃",
+"items": [
+{"id": "2.2.2.1", "title": "企劃書"},
+{"id": "2.2.2.2", "title": "簡報"}
+]
+}
+ ]
+ },
+ {"id": "2.3", "title": "實作能力"}
+ ]
+ }
+]
+
+js2=json.dumps(js,ensure_ascii=False)
+df=pd.read_json(js2)
+df.to_csv(r'C:\Users\莫再提\Desktop\testtt.csv')
 
 --------------------------------------------------
 #將JSON檔轉為python物件
