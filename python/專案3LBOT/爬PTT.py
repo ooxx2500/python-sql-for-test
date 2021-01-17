@@ -9,7 +9,7 @@ Created on Wed Jul 29 13:07:33 2020
 
 import requests, bs4
 
-url = 'https://www.ptt.cc/bbs/Gossiping/index.html'
+url = 'https://www.ptt.cc/bbs/HardwareSale/index.html'
 ptthtml = requests.get(url, cookies={'over18':'1'})
 objSoup = bs4.BeautifulSoup(ptthtml.text, 'lxml')
 articles =[]
