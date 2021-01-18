@@ -14,6 +14,8 @@ from playsound import playsound
 articles =[]
 names=[]
 count_list=0
+print('開始執行.....')
+print('***************************************')
 while True:
     url = 'https://www.ptt.cc/bbs/HardwareSale/index.html'
     ptthtml = requests.get(url, cookies={'over18':'1'})
@@ -46,6 +48,10 @@ while True:
                             numb2=pp.text.find('◎品樣狀況')
                             
                             
+                            insnum=pp.text.find('◎品樣狀況') 
+                            insnum2=pp.text.find('◎佐證資料')  
+                            insurance=pp.text[insnum+6:insnum2]
+                            
                             price=pp.text[numb+5:numb2]
           
                             timenumb=pp.text.find('時間') 
@@ -53,21 +59,31 @@ while True:
                             articles.append({'title':title,
                                              'time':time2,
                                              'product':product,
-                                 'price':price,            
+                                 'price':price, 
+                                'insurance':insurance,
                                 'author':author,
                                 'href':href,
         })
     
     
-                    
+                        
 
                         print ('文章標題：',articles[count_list]['title' ])
                         print ('時間：',articles[count_list]['time' ])
                         print('內容:',articles[count_list]['product'].strip())
                         print ('價格：',articles[count_list]['price'].strip())
+                        print ('品樣狀況：',articles[count_list]['insurance'].strip())
                         print ('文章作者：',articles[count_list][ 'author' ])
                         print ('文章連結: ',"https://www.ptt.cc"+articles[count_list]['href'], '\n')
                         print('***************************************')
                         count_list+=1
                         playsound("mous.mp3")
+
+                        print('每隔30秒更新中.......')
+                        print()
+
+        
+        
+
     time.sleep(30)
+    
